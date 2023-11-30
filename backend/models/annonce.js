@@ -19,13 +19,11 @@ const AnnonceSchema = new mongoose.Schema(
       type: String,
       required: true,
       trim: true,
-      minlength: 3,
-      maxlength: 200,
     },
     image:{
         type:Object,
         default:{
-            url:"https://res.cloudinary.com/dqh5vg8pw/image/upload/v16",
+            url:"",
             publicId:null
         }
     },
@@ -74,5 +72,15 @@ const AnnonceSchema = new mongoose.Schema(
   }
 );
 
-//post model 
-const Annonce=mongoose.model('annonce','AnnonceSchema')
+//annonce model 
+const Annonce = mongoose.model("annonce", AnnonceSchema);
+
+//validate create annonce
+function validateCreatePost(obj){
+  const schema=Joi.Object({
+    title:Joi.string().trim().min(2).max(200).required(),
+     description:Joi.string().trim().min(10).required(),
+     category:Joi.string().trim().required()
+  })
+  return schema.validate(obj)
+}
