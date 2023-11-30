@@ -16,17 +16,17 @@ const photoStorage=multer.diskStorage({
     }
 })
 //photo upload middlware
-const photoUpload=multer({
-    storage:photoStorage,
-    fillerFilter:function(req,file,cb){
-      //("image/png"))
-      if (file.mimetype.stratsWith("image")) {
-        cb(null, true);
-      } else {
-        cb({ message: "unsupported file format " }, false);
-      }
-    },
-    limits:{fileSize:1024*1024* 1} // 1 MB
+const photoUpload = multer({
+  storage: photoStorage,
+  fileFilter: function (req, file, cb) {
+    // Check if the file is an image
+    if (file.mimetype.startsWith("image")) {
+      cb(null, true);
+    } else {
+      cb({ message: "Unsupported file format" }, false);
+    }
+  },
+  limits: { fileSize: 1024 * 1024 * 2 }, // 1 MB
+});
 
-})
-module.exports=photoUpload
+module.exports = photoUpload;
