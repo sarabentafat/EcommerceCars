@@ -33,11 +33,31 @@ function verifyTokenAndOnlyUser(req, res, next) {
     if (req.user._id === req.params.id) {
       next();
     } else {
-      console.log(req.params.id);
-      console.log(req.user._id);
       return res.status(403).json({ message: "Not allowed, only user himself" });
     }
   });
 }
+// Verify token and authorization
+function verifyTokenAndAuthorization(req, res, next) {
+  verifyToken(req, res, () => {
+    const isAdmin = req.user.isAdmin;
+    
+    const isUserHimself = req.user._id === req.params.id;
+    
+console.log(isUserHimself)
+    if (isAdmin || isUserHimself) {
+      next();
+    } else {
+      return res
+        .status(403)
+        .json({ message: "Not allowed, only the user himself or an admin" });
+    }
+  });
+}
 
-module.exports={verifyToken,verifyTokenAndAdmin,verifyTokenAndOnlyUser}
+module.exports = {
+  verifyToken,
+  verifyTokenAndAdmin,
+  verifyTokenAndOnlyUser,
+  verifyTokenAndAuthorization,
+};

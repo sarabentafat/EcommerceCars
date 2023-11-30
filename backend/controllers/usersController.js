@@ -4,7 +4,15 @@ const {
   validateLoginUser,
   validateUpdateUser,
 } = require("../models/User");
+ 
+const fs=require('fs')
 const bcrypt=require("bcryptjs")
+const path=require('path')
+const {cloudinaryUploadImage,cloudinaryRemoveImage}=require('../utils/cloudinary')
+
+
+
+
 /**----------------------------------------------
  * @desc   get all users profile 
  * @route   /api/users/profile
@@ -87,8 +95,84 @@ module.exports.getUsersCountCtrl=asyncHandler(async (req,res)=>{
  * @method  POST
  * @access  private (only logged user)
  * ----------------------------------------------*/
-module.exports.profilePhotoUploadCtrl=asyncHandler(async (req,res)=>{
-  console.log(req.file)
-  res.status(200).json({message:"your profile photo uploadded succefully"});
+module.exports.profilePhotoUploadCtrl = asyncHandler(async (req, res) => {
+  let imagePath;
+
+  try {
+    // 1. Validate file presence
+    if (!req.file) {
+      return res.status(400).json({ message: "No file provided" });
     }
-)
+
+    // 2. Get the path of the uploaded image
+    imagePath = path.join(__dirname, `../images/${req.file.filename}`);
+
+    // 3. Upload image to Cloudinary
+    const result = await cloudinaryUploadImage(imagePath);
+    console.log(result);
+
+    // 4. Fetch the user from the database
+    const user = await User.findById(req.user.id);
+
+    // 5. Delete old profile photo if it exists
+    if (user && user.profilePic && user.profilePic.publicId) {
+      await cloudinaryRemoveImage(user.profilePic.publicId);
+    }
+
+    // 6. Update user's profile photo in the database
+    user.profilePic = {
+      url: result.secure_url,
+      publicId: result.public_id,
+    };
+
+    await user.save();
+
+    // 7. Send success response with updated profile pic info
+    res.status(200).json({
+      message: "Your profile picture was uploaded successfully",
+      profilePic: { url: result.secure_url, publicId: result.public_id },
+    });
+  } catch (error) {
+    // 8. Handle errors gracefully
+    console.error(error);
+    res.status(500).json({ message: "Error uploading profile picture" });
+  } finally {
+    // 9. Remove the uploaded image from the server
+    if (imagePath) {
+      try {
+        await fs.unlink(imagePath);
+        console.log(`Image at ${imagePath} removed successfully.`);
+      } catch (unlinkError) {
+        console.error(`Error removing image at ${imagePath}:`, unlinkError);
+      }
+    }
+  }
+});
+/**----------------------------------------------
+ * @desc   DELEte User profile 
+ * @route   /api/users/profile/:id
+ * @method  DELETE
+ * @access  private (only admin or user himself)
+ * ----------------------------------------------*/ 
+module.exports.deleteUserProfileCtrl=asyncHandler(async(req,res)=>{
+  //1. get the user from the db 7
+  const user=await User.findById(req.params.id)
+  if(!user){
+    return res.status(404).json({
+      message:"user is not found "
+    })
+  }
+
+  //get all posts from db
+  //get the public ids from the posts 
+  //delete all posts image from cloudinary  that belongd to this user 
+  //delete the profile picture from clouadinary 
+  await cloudinaryRemoveImage(user.profilePic.publicId)
+  // delete user posts and comments 
+  //delete the user himsself
+  await User.findByIdAndDelete(req.params.id)
+  //send a response to the server 
+  res.status(200).json({
+    message:"user deleted succefully"
+  })
+})
