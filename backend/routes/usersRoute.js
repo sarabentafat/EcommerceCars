@@ -4,8 +4,9 @@ const {
   updateUserProfileCtrl,
   getUsersCountCtrl,
   profilePhotoUploadCtrl,
+  deleteUserProfileCtrl,
 } = require("../controllers/usersController");
-const  {verifyToken,verifyTokenAndAdmin,verifyTokenAndOnlyUser}=require("../middlewares/verifyToken")
+const  {verifyToken,verifyTokenAndAdmin,verifyTokenAndOnlyUser, verifyTokenAndAuthorization}=require("../middlewares/verifyToken")
 const router=require("express").Router()
 const validateObjectId=require("../middlewares/validateObjectId");
 const photoUpload = require("../middlewares/photoUpload");
@@ -17,7 +18,8 @@ router.route("/profile").get(verifyTokenAndAdmin,getAllUsersCtrl)
 router
   .route("/profile/:id")
   .get(validateObjectId, getUserProfileCtrl)
-  .put(validateObjectId, verifyTokenAndOnlyUser, updateUserProfileCtrl);
+  .put(validateObjectId, verifyTokenAndOnlyUser, updateUserProfileCtrl)
+  .delete(validateObjectId,verifyTokenAndAuthorization,deleteUserProfileCtrl)
 
   //api/users/count
 router.route("/count").get(verifyTokenAndAdmin, getUsersCountCtrl);
