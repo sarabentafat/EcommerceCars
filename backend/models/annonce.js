@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const Joi = require("joi"); // Corrected the import statement
-const jwt = require("jsonwebtoken");
+
 const AnnonceSchema = new mongoose.Schema(
   {
     user: {
@@ -20,18 +20,18 @@ const AnnonceSchema = new mongoose.Schema(
       required: true,
       trim: true,
     },
-    image:{
-        type:Object,
-        default:{
-            url:"",
-            publicId:null
-        }
+    image: {
+      type: Object,
+      default: {
+        url: "",
+        publicId: null,
+      },
     },
-    likes:[
-        {
-            type:mongooose.Schema.Types.ObjectId,
-            ref:"User"
-        }
+    likes: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+      },
     ],
     description: {
       type: String,
@@ -39,24 +39,18 @@ const AnnonceSchema = new mongoose.Schema(
       trim: true,
       minlength: 4,
     },
-
     kilometrage: {
-      type: String,
-      required: true,
+      type: Number,
       trim: true,
-      minlength: 3,
-      maxlength: 200,
     },
     energie: {
       type: String,
-      required: true,
       trim: true,
       minlength: 3,
       maxlength: 200,
     },
     couleur: {
       type: String,
-      required: true,
       trim: true,
       minlength: 3,
       maxlength: 200,
@@ -72,15 +66,35 @@ const AnnonceSchema = new mongoose.Schema(
   }
 );
 
-//annonce model 
-const Annonce = mongoose.model("annonce", AnnonceSchema);
+// Annonce model
+const Annonce = mongoose.model("Annonce", AnnonceSchema);
 
-//validate create annonce
-function validateCreatePost(obj){
-  const schema=Joi.Object({
-    title:Joi.string().trim().min(2).max(200).required(),
-     description:Joi.string().trim().min(10).required(),
-     category:Joi.string().trim().required()
-  })
-  return schema.validate(obj)
+// Validate create annonce
+function validateCreateAnnonce(obj) {
+  const schema = Joi.object({
+    title: Joi.string().trim().min(4).max(200).required(),
+    description: Joi.string().trim().min(4).required(),
+    category: Joi.string().trim().required(),
+    price: Joi.number().required(),
+    couleur: Joi.string().trim(),
+    energie: Joi.string().trim(),
+    kilometrage:Joi.number(),
+  });
+  return schema.validate(obj);
 }
+
+// Validate update annonce
+function validateUpdateAnnonce(obj) {
+  const schema = Joi.object({
+    title: Joi.string().trim().min(4).max(200),
+    description: Joi.string().trim().min(4),
+    category: Joi.string().trim(),
+  });
+  return schema.validate(obj);
+}
+
+module.exports = {
+  Annonce,
+  validateCreateAnnonce,
+  validateUpdateAnnonce,
+};
