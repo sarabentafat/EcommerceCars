@@ -89,6 +89,8 @@ function validateUpdateAnnonce(obj) {
     title: Joi.string().trim().min(4).max(200),
     description: Joi.string().trim().min(4),
     category: Joi.string().trim(),
+    couleur:Joi.string().trim(),
+    energie:Joi.string().trim()
   });
   return schema.validate(obj);
 }

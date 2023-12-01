@@ -20,6 +20,7 @@ connectToDb()
 //ROUTES
 app.use("/api/auth",require("./routes/authRoute"))
 app.use("/api/users", require("./routes/usersRoute"));
+app.use("/api/annonces", require("./routes/annoncesRoute"));
 
 
 app.get("/", (req, res) => {

@@ -8,28 +8,36 @@ cloudinary.config({
 const cloudinaryUploadImage = async (fileToUpload) => {
   try {
     if (!fileToUpload) {
-      throw new Error('File to upload is missing');
+      throw new Error("File to upload is missing");
     }
 
     const data = await cloudinary.uploader.upload(fileToUpload, {
-      resource_type: 'auto',
+      resource_type: "auto",
     });
     return data;
   } catch (error) {
-    return error;
+    if (error.http_code === 400) {
+      // Handle specific error cases if needed
+      throw new Error("Invalid request to Cloudinary");
+    }
+
+    // If not a specific case, provide a generic message
+    throw new Error("Cloudinary upload failed");
   }
 };
 //clouadinary remove image 
-const cloudinaryRemoveImage=async()=>{
-    try {
-        const result=await cloudinary.uploader.destroy(imagePublicId)
-        return result;
-
-    }catch(error){
-        return error;
+const cloudinaryRemoveImage = async (imagePublicId) => {
+  try {
+    if (!imagePublicId) {
+      throw new Error("Image public ID is missing");
     }
 
-}
+    const result = await cloudinary.uploader.destroy(imagePublicId);
+    return result;
+  } catch (error) {
+    throw new Error(`Cloudinary image removal failed: ${error.message}`);
+  }
+};
 module.exports = {
   cloudinaryUploadImage,
   cloudinaryRemoveImage,
