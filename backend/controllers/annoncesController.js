@@ -138,7 +138,7 @@ module.exports.deleteAnnonceCtrl = asyncHandler(async (req, res) => {
 /**----------------------------------------------
  * @desc    Update annonce 
  * @route    Update /api/annonces/:id
- * @method  UPDATE
+ * @method  PUT
  * @access  private (only the owner of the annonce  )
  * ----------------------------------------------*/
 module.exports.updateAnnonceCtrl = asyncHandler(async (req, res) => {
@@ -175,3 +175,48 @@ const updatedAnnonce = await Annonce.findByIdAndUpdate(
 
 });
 
+/**----------------------------------------------
+ * @desc    Update annonce image  
+ * @route    Update /api/annonces/upload-image/:id
+ * @method  PUT
+ * @access  private (only the owner of the annonce  )
+ * ----------------------------------------------*/
+module.exports.updateAnnonceImageCtrl = asyncHandler(async (req, res) => {
+  // Validation
+  if (!req.file) {
+    return res.status(400).json({ message: "no image provided" });
+  }
+
+  const annonce = await Annonce.findById(req.params.id);
+  if (!annonce) {
+    return res.status(404).json({ message: "annonce not found" });
+  }
+
+  if (req.user._id !== annonce.user.toString()) {
+    return res
+      .status(401)
+      .json({ message: "you are not authorized to update this post" });
+  }
+
+  // Delete the old annonce image
+  await cloudinaryRemoveImage(annonce.image.publicId);
+
+  // Upload new image
+  const imagePath = path.join(__dirname, `../images/${req.file.filename}`);
+  const result = await cloudinaryUploadImage(imagePath);
+  const updatedAnnonce = await Annonce.findByIdAndUpdate(req.params.id, {
+    $set: {
+      image: {
+        url: result.secure_url,
+        publicId: result.public_id,
+      },
+    },
+  }).populate("user", ["-password"]);
+
+  // Remove the image from the server
+  fs.unlinkSync(imagePath);
+
+  // Log success message after the image is removed
+  console.log("updated successfully");
+  res.status(200).json(updatedAnnonce);
+});
