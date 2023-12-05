@@ -1,9 +1,10 @@
+import React from 'react';
+import Home from './Components/Home'; 
+import './App.css';
 
 function App() {
   return (
-    <div className="bg-black text-white text-5xl h-screen">
-Its working wiiiiiwwwwwwwww 
-    </div>
+    <Home/>
   );
 }
 
