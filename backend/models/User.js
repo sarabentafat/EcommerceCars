@@ -46,8 +46,19 @@ const UserSchema = new mongoose.Schema(
   {
     // add 2 properties createdAt updatedAt
     timestamps: true,
+    toJSON:{virtuals:true},
+    toObject:{virtuals:true}
   }
 );
+
+//ppulate annonces that belongs to this user hen he she get his her profile 
+UserSchema.virtual("annonces",{
+  ref:"Annonce",
+  foreignField:"user",
+  localField:"_id"
+})
+
+
 //generate auth token
 UserSchema.methods.generateAuthToken=function(){
  return jwt.sign(

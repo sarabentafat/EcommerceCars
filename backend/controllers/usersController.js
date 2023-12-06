@@ -38,9 +38,9 @@ module.exports.getAllUsersCtrl=asyncHandler(
 module.exports.getUserProfileCtrl=asyncHandler(
     async (req,res)=>{
 
-        console.log(req.headers.authorization.split(" ")[1])
-        console.log('hhhhhhh')
-        const user=await User.findById(req.params.id).select("-password")//dont give me the passwords)
+        // console.log(req.headers.authorization.split(" ")[1])
+        // console.log('hhhhhhh')
+        const user=await User.findById(req.params.id).select("-password").populate("annonces");
         if(!user){
             res.status(404).json({message:"user not found"})
         }

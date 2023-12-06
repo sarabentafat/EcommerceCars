@@ -10,6 +10,8 @@ const {
   deleteAnnonceCtrl,
   updateAnnonceCtrl,
   updateAnnonceImageCtrl,
+  toggleLikeCtrl,
+  getAnnoncesCountCtrl,
 } = require("../controllers/annoncesController");
 const validateObjectId=require("../middlewares/validateObjectId")
 router
@@ -27,6 +29,11 @@ router.route("/:id")
 //api/annonces/update-image/:id
 router.route("/update-image/:id")
      .put(validateObjectId,verifyToken,photoUpload.single("image"),updateAnnonceImageCtrl)
+    
+// /api/annonces/like/:id
+router.route("/like/:id")
+  .put(validateObjectId, verifyToken, toggleLikeCtrl)
+  .get(getAnnoncesCountCtrl);
     
 
 module.exports = router;

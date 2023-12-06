@@ -204,6 +204,7 @@ module.exports.updateAnnonceImageCtrl = asyncHandler(async (req, res) => {
   // Upload new image
   const imagePath = path.join(__dirname, `../images/${req.file.filename}`);
   const result = await cloudinaryUploadImage(imagePath);
+ //update the image in the db
   const updatedAnnonce = await Annonce.findByIdAndUpdate(req.params.id, {
     $set: {
       image: {
@@ -211,7 +212,7 @@ module.exports.updateAnnonceImageCtrl = asyncHandler(async (req, res) => {
         publicId: result.public_id,
       },
     },
-  }).populate("user", ["-password"]);
+  });
 
   // Remove the image from the server
   fs.unlinkSync(imagePath);
@@ -219,4 +220,60 @@ module.exports.updateAnnonceImageCtrl = asyncHandler(async (req, res) => {
   // Log success message after the image is removed
   console.log("updated successfully");
   res.status(200).json(updatedAnnonce);
+});
+/**----------------------------------------------
+ * @desc    Like annonce (toggle)  
+ * @route    Update /api/annonces/like/:id
+ * @method  PUT
+ * @access  private (only logged in user  )
+ * ----------------------------------------------*/
+module.exports.toggleLikeCtrl = asyncHandler(async (req, res) => {
+  const { id: annonceId } = req.params;
+  const loggedInUser=req.user._id;
+  
+  try {
+    let annonce = await Annonce.findById(annonceId);
+
+    if (!annonce) {
+      return res.status(404).json({ message: "annonce not found" });
+
+    }
+  
+    const isAnnonceAlreadyLiked = annonce.likes.find((user)=>user.toString()===loggedInUser); 
+
+    if (isAnnonceAlreadyLiked) {
+      
+      console.log(loggedInUser)
+      annonce = await Annonce.findByIdAndUpdate(
+        annonceId,
+        { $pull: { likes: loggedInUser } },
+        { new: true }
+      );
+    } else {
+
+      annonce = await Annonce.findByIdAndUpdate(
+        annonceId,
+        { $push: { likes: loggedInUser } },
+        { new: true }
+      );
+    }
+
+    res.json(annonce); 
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Internal Server Error");
+  }
+});
+/**----------------------------------------------
+ * @desc    get likes count 
+ * @route    Update /api/annonces/like/:id
+ * @method  GET
+ * @access  public(only logged in user  )
+ * ----------------------------------------------*/
+module.exports.getAnnoncesCountCtrl = asyncHandler(async (req, res) => {
+
+  const annonce = await Annonce.findById(req.params.id);
+ const count= annonce.likes.length
+
+  res.status(200).json(count);
 });
