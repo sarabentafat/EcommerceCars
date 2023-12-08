@@ -1,21 +1,36 @@
-import React from "react";
-import './Home.css';
+import { useState, useEffect } from "react";
 import Nav from "./Nav.js";
 import Car from "../Pictures/Image 13.png";
-import Car1 from "../Pictures/image14.png";
-import Car2 from "../Pictures/image15.png";
-import Car3 from "../Pictures/image16.png";
-import Car4 from "../Pictures/image17.png";
-import Car5 from "../Pictures/image18.png";
-import Car6 from "../Pictures/image19.png";
-import Car7 from "../Pictures/image20.png";
-import Car8 from "../Pictures/image21.png";
-import Car9 from "../Pictures/image22.png";
 import HeartButton from "./HeartButton";
-
-
+import axios from "axios";
 
 function Home() {
+  const [annonces, setAnnonces] = useState([]);
+  const [currentCategory, setCurrentCategory] = useState("all");
+
+  useEffect(() => {
+  const fetchAnnonces = async () => {
+    try {
+      let apiUrl = "http://localhost:8000/api/annonces";
+
+      // If a specific category is selected, add it to the API URL
+      if (currentCategory !== "all") {
+        apiUrl += `?category=${currentCategory}`;
+      }
+
+      const response = await axios.get(apiUrl);
+      setAnnonces(response.data);
+    } catch (error) {
+      console.error("Error fetching data:", error.message);
+    }
+  };
+    fetchAnnonces();
+  }, [currentCategory]);
+
+  const handleCategoryClick = (category) => {
+    setCurrentCategory(category);
+  };
+
   return (
     <div className="bg-gray-100 p-10 font-serif  text-gray-900">
       <div className="bg-gray-200 bg-opacity-75 p-8 rounded-md">
@@ -175,164 +190,62 @@ function Home() {
           <div className="w-3/4 pl-4 mr-20">
             <div className="flex bg-gray-200 p-4 rounded-md text-xl ">
               <div
-                className="flex-1 text-center cursor-pointer hover:bg-black hover:text-white
-              border border-black
-              py-3"
+                className={`flex-1 text-center cursor-pointer hover:bg-black hover:text-white border border-black py-3 ${
+                  currentCategory === "cars" && "bg-black text-white"
+                }`}
+                onClick={() => handleCategoryClick("cars")}
               >
                 Car
               </div>
               <div
-                className="flex-1 text-center cursor-pointer hover:bg-black hover:text-white
-               border border-black
-               py-3"
+                className={`flex-1 text-center cursor-pointer hover:bg-black hover:text-white border border-black py-3 ${
+                  currentCategory === "camion" && "bg-black text-white"
+                }`}
+                onClick={() => handleCategoryClick("camion")}
               >
                 Camion
               </div>
               <div
-                className="flex-1 text-center cursor-pointer hover:bg-black hover:text-white
-               border border-black
-               py-3"
+                className={`flex-1 text-center cursor-pointer hover:bg-black hover:text-white border border-black py-3 ${
+                  currentCategory === "motors" && "bg-black text-white"
+                }`}
+                onClick={() => handleCategoryClick("motors")}
               >
                 Motors
               </div>
               <div
-                className="flex-1 text-center cursor-pointer hover:bg-black hover:text-white
-               border border-black
-               py-3"
+                className={`flex-1 text-center cursor-pointer hover:bg-black hover:text-white border border-black py-3 ${
+                  currentCategory === "all" && "bg-black text-white"
+                }`}
+                onClick={() => handleCategoryClick("all")}
               >
                 All
               </div>
             </div>
-
             {/* Three Rows of Images */}
             <div className="flex mt-4">
               <div className="grid grid-cols-3 gap-8 ml-6">
-                <div className="flex-1 ml-5">
-                  <div className="relative ">
-                    <HeartButton className="absolute top-0 right-0 mt-2 mr-2 " />
-                    <img src={Car9} className=" w-92 " alt="Car Image" />
+                {annonces.map((annonce) => (
+                  <div key={annonce._id} className="flex-1 ml-5">
+                    <div className="relative ">
+                      <HeartButton className="absolute top-0 right-0 mt-2 mr-2 " />
+                      <img
+                        src={annonce.image.url}
+                        alt={annonce.title}
+                        style={{ maxWidth: "100%", height: "auto" }}
+                      />
+                    </div>
+                    <p className="pb-3 pt-1">{annonce.title}</p>
+                    <p className="text-xs pb-3">{annonce.description}</p>
+
+                    <p className="text-yellow-600 text-base  pb-3">
+                      {annonce.price}
+                    </p>
+                    <button className="bg-black text-white w-full py-1 px-6">
+                      See Details
+                    </button>
                   </div>
-                  <p className="pb-3 pt-1">JEEP 2017 Alger</p>
-                  <p className="text-xs pb-3">Hybrid 160 km</p>
-                  <p className="text-yellow-600 text-base  pb-3">
-                    300 Millions
-                  </p>
-                  <button className="bg-black text-white w-full py-1 px-6">
-                    See Details
-                  </button>
-                </div>
-                <div className="flex-1 ml-5">
-                  <div className="relative">
-                    <HeartButton className="absolute top-0 right-0 mt-2 mr-2 " />
-                    <img src={Car8} className="w-66 h-50 " alt="Car Image" />
-                  </div>
-                  <p className="pb-3 pt-1">JEEP 2017 Alger</p>
-                  <p className="text-xs pb-3">Hybrid 160 km</p>
-                  <p className="text-yellow-600 text-base  pb-3">
-                    300 Millions
-                  </p>
-                  <button className="bg-black text-white  w-full py-1 px-6">
-                    See Details
-                  </button>
-                </div>
-                <div className="flex-1 ml-5">
-                  <div className="relative">
-                    <HeartButton className="absolute top-0 right-0 mt-2 mr-2 " />
-                    <img src={Car1} className="w-66 h-50 " alt="Car Image" />
-                  </div>
-                  <p className="pb-3 pt-1">JEEP 2017 Alger</p>
-                  <p className="text-xs pb-3">Hybrid 160 km</p>
-                  <p className="text-yellow-600 text-base  pb-3">
-                    300 Millions
-                  </p>
-                  <button className="bg-black  w-full text-white py-1 px-6">
-                    See Details
-                  </button>
-                </div>
-                <div className="flex-1 ml-5">
-                  <div className="relative">
-                    <HeartButton className="absolute top-0 right-0 mt-2 mr-2 " />
-                    <img src={Car2} className="w-66 h-50 " alt="Car Image" />
-                  </div>
-                  <p className="pb-3 pt-1">JEEP 2017 Alger</p>
-                  <p className="text-xs pb-3">Hybrid 160 km</p>
-                  <p className="text-yellow-600 text-base  pb-3">
-                    300 Millions
-                  </p>
-                  <button className="bg-black  w-full text-white py-1 px-6">
-                    See Details
-                  </button>
-                </div>
-                <div className="flex-1 ml-5">
-                  <div className="relative">
-                    <HeartButton className="absolute top-0 right-0 mt-2 mr-2 " />
-                    <img src={Car3} className="w-66 h-50 " alt="Car Image" />
-                  </div>
-                  <p className="pb-3 pt-1">JEEP 2017 Alger</p>
-                  <p className="text-xs pb-3">Hybrid 160 km</p>
-                  <p className="text-yellow-600 text-base  pb-3">
-                    300 Millions
-                  </p>
-                  <button className="bg-black  w-full text-white py-1 px-6">
-                    See Details
-                  </button>
-                </div>
-                <div className="flex-1 ml-5">
-                  <div className="relative">
-                    <HeartButton className="absolute top-0 right-0 mt-2 mr-2 " />
-                    <img src={Car4} className="w-66 h-50 " alt="Car Image" />
-                  </div>
-                  <p className="pb-3 pt-1">JEEP 2017 Alger</p>
-                  <p className="text-xs pb-3">Hybrid 160 km</p>
-                  <p className="text-yellow-600 text-base  pb-3">
-                    300 Millions
-                  </p>
-                  <button className="bg-black  w-full text-white py-1 px-6">
-                    See Details
-                  </button>
-                </div>
-                <div className="flex-1 ml-5">
-                  <div className="relative">
-                    <HeartButton className="absolute top-0 right-0 mt-2 mr-2 " />
-                    <img src={Car5} className="w-66 h-50 " alt="Car Image" />
-                  </div>
-                  <p className="pb-3 pt-1">JEEP 2017 Alger</p>
-                  <p className="text-xs pb-3">Hybrid 160 km</p>
-                  <p className="text-yellow-600 text-base  pb-3">
-                    300 Millions
-                  </p>
-                  <button className="bg-black  w-full text-white py-1 px-6">
-                    See Details
-                  </button>
-                </div>
-                <div className="flex-1 ml-5">
-                  <div className="relative">
-                    <HeartButton className="absolute top-0 right-0 mt-2 mr-2 " />
-                    <img src={Car6} className="w-66 h-50 " alt="Car Image" />
-                  </div>
-                  <p className="pb-3 pt-1">JEEP 2017 Alger</p>
-                  <p className="text-xs pb-3">Hybrid 160 km</p>
-                  <p className="text-yellow-600 text-base  pb-3">
-                    300 Millions
-                  </p>
-                  <button className="bg-black  w-full text-white py-1 px-6">
-                    See Details
-                  </button>
-                </div>
-                <div className="flex-1 ml-5">
-                  <div className="relative">
-                    <HeartButton className="absolute top-0 right-0 mt-2 mr-2 " />
-                    <img src={Car7} className="w-66 h-50 " alt="Car Image" />
-                  </div>
-                  <p className="pb-3 pt-1">JEEP 2017 Alger</p>
-                  <p className="text-xs pb-3">Hybrid 160 km</p>
-                  <p className="text-yellow-600 text-base  pb-3">
-                    300 Millions
-                  </p>
-                  <button className="bg-black  w-full text-white py-1 px-6">
-                    See Details
-                  </button>
-                </div>
+                ))}
               </div>
 
               {/* Repeat the above structure for the other two images */}
