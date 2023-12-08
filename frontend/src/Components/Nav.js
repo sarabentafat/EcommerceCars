@@ -11,7 +11,7 @@ function Nav() {
 
   return (
     <nav className="main-nav">
-      <ul className="flex space-x-12 absolute ml-60 mb-30 p-3 font-serif text-lg">
+      <ul className="flex space-x-20 absolute ml-40 mb-30 p-4 font-serif text-lg">
         <a
           className={`mt-3 hover:text-yellow-600 hover:border-yellow-600 border-b-2 ${activeItem === 'Home' ? 'text-yellow-600 border-yellow-600 border-b-2' : ''}`}
           href="/"

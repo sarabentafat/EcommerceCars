@@ -1,10 +1,12 @@
 import React from 'react';
-import Home from './Components/Home'; 
+import PostAnnounce from './Components/PostAnnounce'; 
 import './App.css';
+import Home from './Components/Home';
+import GeneratePrice from './Components/GeneratePrice'
 
 function App() {
   return (
-    <Home/>
+    <GeneratePrice/>
   );
 }
 

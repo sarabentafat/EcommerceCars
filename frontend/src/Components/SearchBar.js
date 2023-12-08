@@ -10,7 +10,7 @@ const SearchBar = () => {
           <input
             type="text"
            
-            className = {`outline-none w-full border-2 p-1 border-black bg-gray-200 `}
+            className = {`outline-none w-full border-2 p-1 border-black bg-opacity-0 `}
             onFocus={() => setIsSearchActive(true)}
             onBlur={() => setIsSearchActive(false)}
           />
