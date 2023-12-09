@@ -1,27 +1,11 @@
-import React from "react";
-import './Home.css';
+import { useState, useEffect } from "react";
 import Nav from "./Nav.js";
 import Car from "../Pictures/Image 13.png";
-import Car1 from "../Pictures/image14.png";
-import Car2 from "../Pictures/image15.png";
-import Car3 from "../Pictures/image16.png";
-import Car4 from "../Pictures/image17.png";
-import Car5 from "../Pictures/image18.png";
-import Car6 from "../Pictures/image19.png";
-import Car7 from "../Pictures/image20.png";
-import Car8 from "../Pictures/image21.png";
-import Car9 from "../Pictures/image22.png";
 import HeartButton from "./HeartButton";
 
-import { useNavigate} from 'react-router-dom';
+
 
 function Home() {
-  const navigate = useNavigate();
-  const details = () => {
-    navigate('/Details');
-  };
-
-
   return (
     <div className="bg-gray-100 p-10 font-serif  text-gray-900">
       <div className="bg-gray-200 bg-opacity-75 p-8 rounded-md">
@@ -181,35 +165,38 @@ function Home() {
           <div className="w-3/4 pl-4 mr-20">
             <div className="flex bg-gray-200 p-4 rounded-md text-xl ">
               <div
-                className="flex-1 text-center cursor-pointer hover:bg-black hover:text-white
-              border border-black
-              py-3"
+                className={`flex-1 text-center cursor-pointer hover:bg-black hover:text-white border border-black py-3 ${
+                  currentCategory === "cars" && "bg-black text-white"
+                }`}
+                onClick={() => handleCategoryClick("cars")}
               >
                 Car
               </div>
               <div
-                className="flex-1 text-center cursor-pointer hover:bg-black hover:text-white
-               border border-black
-               py-3"
+                className={`flex-1 text-center cursor-pointer hover:bg-black hover:text-white border border-black py-3 ${
+                  currentCategory === "camion" && "bg-black text-white"
+                }`}
+                onClick={() => handleCategoryClick("camion")}
               >
                 Camion
               </div>
               <div
-                className="flex-1 text-center cursor-pointer hover:bg-black hover:text-white
-               border border-black
-               py-3"
+                className={`flex-1 text-center cursor-pointer hover:bg-black hover:text-white border border-black py-3 ${
+                  currentCategory === "motors" && "bg-black text-white"
+                }`}
+                onClick={() => handleCategoryClick("motors")}
               >
                 Motors
               </div>
               <div
-                className="flex-1 text-center cursor-pointer hover:bg-black hover:text-white
-               border border-black
-               py-3"
+                className={`flex-1 text-center cursor-pointer hover:bg-black hover:text-white border border-black py-3 ${
+                  currentCategory === "all" && "bg-black text-white"
+                }`}
+                onClick={() => handleCategoryClick("all")}
               >
                 All
               </div>
             </div>
-
             {/* Three Rows of Images */}
             <div className="flex mt-4">
               <div className="grid grid-cols-3 gap-8 ml-6">
@@ -223,7 +210,7 @@ function Home() {
                   <p className="text-yellow-600 text-base  pb-3">
                     300 Millions
                   </p>
-                  <button  onClick={details} className="bg-black text-white w-full py-1 px-6">
+                  <button className="bg-black text-white w-full py-1 px-6">
                     See Details
                   </button>
                 </div>
@@ -237,7 +224,7 @@ function Home() {
                   <p className="text-yellow-600 text-base  pb-3">
                     300 Millions
                   </p>
-                  <button  onClick={details} className="bg-black text-white  w-full py-1 px-6">
+                  <button className="bg-black text-white  w-full py-1 px-6">
                     See Details
                   </button>
                 </div>
@@ -265,7 +252,7 @@ function Home() {
                   <p className="text-yellow-600 text-base  pb-3">
                     300 Millions
                   </p>
-                  <button  onClick={details} className="bg-black  w-full text-white py-1 px-6">
+                  <button className="bg-black  w-full text-white py-1 px-6">
                     See Details
                   </button>
                 </div>
@@ -279,7 +266,7 @@ function Home() {
                   <p className="text-yellow-600 text-base  pb-3">
                     300 Millions
                   </p>
-                  <button  onClick={details} className="bg-black  w-full text-white py-1 px-6">
+                  <button className="bg-black  w-full text-white py-1 px-6">
                     See Details
                   </button>
                 </div>
@@ -293,7 +280,7 @@ function Home() {
                   <p className="text-yellow-600 text-base  pb-3">
                     300 Millions
                   </p>
-                  <button  onClick={details} className="bg-black  w-full text-white py-1 px-6">
+                  <button className="bg-black  w-full text-white py-1 px-6">
                     See Details
                   </button>
                 </div>
@@ -307,7 +294,7 @@ function Home() {
                   <p className="text-yellow-600 text-base  pb-3">
                     300 Millions
                   </p>
-                  <button  onClick={details} className="bg-black  w-full text-white py-1 px-6">
+                  <button className="bg-black  w-full text-white py-1 px-6">
                     See Details
                   </button>
                 </div>
@@ -335,7 +322,7 @@ function Home() {
                   <p className="text-yellow-600 text-base  pb-3">
                     300 Millions
                   </p>
-                  <button  onClick={details} className="bg-black  w-full text-white py-1 px-6">
+                  <button className="bg-black  w-full text-white py-1 px-6">
                     See Details
                   </button>
                 </div>
