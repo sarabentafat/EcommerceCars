@@ -7,7 +7,7 @@ function PostAnnounce() {
 
   return (
     <div className="flex flex-col h-screen"> 
-    <div className='mt-4'>
+    <div className='mt-10'>
     <Nav />
     </div>
      
@@ -60,5 +60,3 @@ function PostAnnounce() {
 }
 
 export default PostAnnounce;
-
-

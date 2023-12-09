@@ -13,13 +13,19 @@ import Car8 from "../Pictures/image21.png";
 import Car9 from "../Pictures/image22.png";
 import HeartButton from "./HeartButton";
 
-
+import { useNavigate} from 'react-router-dom';
 
 function Home() {
+  const navigate = useNavigate();
+  const details = () => {
+    navigate('/Details');
+  };
+
+
   return (
     <div className="bg-gray-100 p-10 font-serif  text-gray-900">
       <div className="bg-gray-200 bg-opacity-75 p-8 rounded-md">
-        <Nav />
+        <Nav/>
 
         <div className="text-gray-900 flex justify-center items-center  text-xl font-serif mt-52 pb-8 text-center">
           <p>
@@ -217,7 +223,7 @@ function Home() {
                   <p className="text-yellow-600 text-base  pb-3">
                     300 Millions
                   </p>
-                  <button className="bg-black text-white w-full py-1 px-6">
+                  <button  onClick={details} className="bg-black text-white w-full py-1 px-6">
                     See Details
                   </button>
                 </div>
@@ -231,7 +237,7 @@ function Home() {
                   <p className="text-yellow-600 text-base  pb-3">
                     300 Millions
                   </p>
-                  <button className="bg-black text-white  w-full py-1 px-6">
+                  <button  onClick={details} className="bg-black text-white  w-full py-1 px-6">
                     See Details
                   </button>
                 </div>
@@ -259,7 +265,7 @@ function Home() {
                   <p className="text-yellow-600 text-base  pb-3">
                     300 Millions
                   </p>
-                  <button className="bg-black  w-full text-white py-1 px-6">
+                  <button  onClick={details} className="bg-black  w-full text-white py-1 px-6">
                     See Details
                   </button>
                 </div>
@@ -273,7 +279,7 @@ function Home() {
                   <p className="text-yellow-600 text-base  pb-3">
                     300 Millions
                   </p>
-                  <button className="bg-black  w-full text-white py-1 px-6">
+                  <button  onClick={details} className="bg-black  w-full text-white py-1 px-6">
                     See Details
                   </button>
                 </div>
@@ -287,7 +293,7 @@ function Home() {
                   <p className="text-yellow-600 text-base  pb-3">
                     300 Millions
                   </p>
-                  <button className="bg-black  w-full text-white py-1 px-6">
+                  <button  onClick={details} className="bg-black  w-full text-white py-1 px-6">
                     See Details
                   </button>
                 </div>
@@ -301,7 +307,7 @@ function Home() {
                   <p className="text-yellow-600 text-base  pb-3">
                     300 Millions
                   </p>
-                  <button className="bg-black  w-full text-white py-1 px-6">
+                  <button  onClick={details} className="bg-black  w-full text-white py-1 px-6">
                     See Details
                   </button>
                 </div>
@@ -329,7 +335,7 @@ function Home() {
                   <p className="text-yellow-600 text-base  pb-3">
                     300 Millions
                   </p>
-                  <button className="bg-black  w-full text-white py-1 px-6">
+                  <button  onClick={details} className="bg-black  w-full text-white py-1 px-6">
                     See Details
                   </button>
                 </div>

@@ -21,14 +21,14 @@ function Nav() {
         </a>
         <a
           className={`mt-3 hover:text-yellow-600 hover:border-yellow-600 border-b-2 ${activeItem === 'PostAnnonce' ? 'text-yellow-600 border-yellow-600 border-b-2' : ''}`}
-          href="/"
+          href="/post"
           onClick={() => handleItemClick('PostAnnonce')}
         >
           Post Annonce
         </a>
         <a
           className={`mt-3 hover:text-yellow-600 hover:border-yellow-600 border-b-2 ${activeItem === 'GeneratePrice' ? 'text-yellow-600 border-yellow-600 border-b-2' : ''}`}
-          href="/"
+          href="/Generate"
           onClick={() => handleItemClick('GeneratePrice')}
         >
           Generate Price
@@ -39,6 +39,13 @@ function Nav() {
           onClick={() => handleItemClick('ContactUs')}
         >
           Contact Us
+        </a>
+        <a
+          className={`mt-3 hover:text-yellow-600 hover:border-b-2 border-yellow-600 ${activeItem === 'ContactUs' ? 'text-yellow-600 border-b-2 border-yellow-600' : ''}`}
+          href="/"
+          onClick={() => handleItemClick('ContactUs')}
+        >
+          Profile
         </a>
         <SearchBar/>
       </ul>
