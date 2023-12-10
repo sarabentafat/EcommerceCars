@@ -20,6 +20,12 @@ const AnnonceSchema = new mongoose.Schema(
       required: true,
       trim: true,
     },
+    marque:{
+      type:String,
+      required: true,
+      trim: true,
+
+    },
     image: {
       type: Object,
       default: {
@@ -78,7 +84,8 @@ function validateCreateAnnonce(obj) {
     price: Joi.number().required(),
     couleur: Joi.string().trim(),
     energie: Joi.string().trim(),
-    kilometrage:Joi.number(),
+    kilometrage: Joi.number(),
+    marque: Joi.string.trim(),
   });
   return schema.validate(obj);
 }
@@ -90,7 +97,8 @@ function validateUpdateAnnonce(obj) {
     description: Joi.string().trim().min(4),
     category: Joi.string().trim(),
     couleur:Joi.string().trim(),
-    energie:Joi.string().trim()
+    energie:Joi.string().trim(),
+    marque:Joi.string.trim()
   });
   return schema.validate(obj);
 }

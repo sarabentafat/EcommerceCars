@@ -17,16 +17,22 @@ const photoStorage=multer.diskStorage({
 })
 //photo upload middlware
 const photoUpload = multer({
+  
   storage: photoStorage,
   fileFilter: function (req, file, cb) {
     // Check if the file is an image
+   
     if (file.mimetype.startsWith("image")) {
       cb(null, true);
+       console.log("wslt hna");
+       console.log(file)
+      
     } else {
+       console.log("wslt hnahhhhhh");
       cb({ message: "Unsupported file format" }, false);
     }
   },
-  limits: { fileSize: 1024 * 1024 * 2 }, // 1 MB
+  limits: { fileSize: 1024 * 1024 * 4 }, // 1 MB
 });
 
 module.exports = photoUpload;

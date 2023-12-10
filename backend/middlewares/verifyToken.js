@@ -1,5 +1,6 @@
 const jwt=require("jsonwebtoken")
 function verifyToken(req,res,next){
+
     const authToken=req.headers.authorization;
     if(authToken){
         const token=authToken.split(" ")[1];
@@ -7,6 +8,7 @@ function verifyToken(req,res,next){
             const decodedPayload=jwt.verify(token,process.env.JWT_SECRET)
             req.user=decodedPayload;
             next()
+              console.log("verify token cbn");
         }catch(error){
             return res.status(401).json({message:"invalid token ,access denied"})
         }

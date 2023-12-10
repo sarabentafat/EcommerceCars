@@ -13,6 +13,7 @@ const { post } = require('../routes/usersRoute')
  * ----------------------------------------------*/
 module.exports.createAnnonceCtrl = asyncHandler(async (req, res) => {
   // Image validation
+  console.log("wsmt hna")
   if (!req.file) {
    
     return res.status(400).json({ message: "No image provided" });

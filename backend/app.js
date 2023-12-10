@@ -4,12 +4,13 @@ const connectToDb=require('./config/connectToDb')
 const express = require("express");
 const bodyParser = require("body-parser");
 
-
+const cors = require("cors");
 
 // Apply body-parser middleware
 
 const app = express();
 // app.use(bodyParser.json());
+app.use(cors());
 
 const mongoose = require("mongoose");
 //middlewares
