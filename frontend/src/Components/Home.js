@@ -3,27 +3,30 @@ import Nav from "./Nav.js";
 import Car from "../Pictures/Image 13.png";
 import HeartButton from "./HeartButton";
 import axios from "axios";
+import { Link } from "react-router-dom";
+
+
 
 function Home() {
   const [annonces, setAnnonces] = useState([]);
   const [currentCategory, setCurrentCategory] = useState("all");
 
   useEffect(() => {
-  const fetchAnnonces = async () => {
-    try {
-      let apiUrl = "http://localhost:8000/api/annonces";
+    const fetchAnnonces = async () => {
+      try {
+        let apiUrl = "http://localhost:8000/api/annonces";
 
-      // If a specific category is selected, add it to the API URL
-      if (currentCategory !== "all") {
-        apiUrl += `?category=${currentCategory}`;
+        // If a specific category is selected, add it to the API URL
+        if (currentCategory !== "all") {
+          apiUrl += `?category=${currentCategory}`;
+        }
+
+        const response = await axios.get(apiUrl);
+        setAnnonces(response.data);
+      } catch (error) {
+        console.error("Error fetching data:", error.message);
       }
-
-      const response = await axios.get(apiUrl);
-      setAnnonces(response.data);
-    } catch (error) {
-      console.error("Error fetching data:", error.message);
-    }
-  };
+    };
     fetchAnnonces();
   }, [currentCategory]);
 
@@ -32,9 +35,8 @@ function Home() {
   };
 
   return (
-    <div className="bg-gray-100 p-10 font-serif  text-gray-900">
+    <div className="font-serif  text-gray-900">
       <div className="bg-gray-200 bg-opacity-75 p-8 rounded-md">
-        <Nav />
 
         <div className="text-gray-900 flex justify-center items-center  text-xl font-serif mt-52 pb-8 text-center">
           <p>
@@ -46,9 +48,12 @@ function Home() {
 
         <div className="flex justify-center gap-x-20 mt-4 font-serif text-lg">
           <button className="bg-gray-200 border border-black text-black px-6 py-2  mr-2 ">
-            Sign Up
+            <Link to={"/signup"}>Sign Up</Link>
           </button>
-          <button className="bg-black text-white px-8 py-2 ">Log In</button>
+          <button className="bg-black text-white px-8 py-2 ">
+            <Link to={"/login"}> Log In</Link>
+           
+          </button>
         </div>
         <img src={Car} className="mx-auto mt-20 w-100 h-72" alt="Car Image" />
 
