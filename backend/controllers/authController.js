@@ -11,15 +11,17 @@ const { User, validateRegisterUser, validateLoginUser } = require("../models/Use
 module.exports.registerUserCtrl = asyncHandler(async (req, res) => {
   // Validation
   const { error } = validateRegisterUser(req.body); // Corrected the function name
-
+console.log(req.body)
   // Error 400: Problem from the client if they didn't provide valid input
   if (error) {
+    console.log("wch izan")
     return res.status(400).json({ message: error.details[0].message });
   }
 
   // Check if user already exists
   let user = await User.findOne({ email: req.body.email });
   if (user) {
+    console.log("User already exists");
     return res.status(400).json({ message: "User already exists" });
   }
 
@@ -32,10 +34,12 @@ module.exports.registerUserCtrl = asyncHandler(async (req, res) => {
     username: req.body.username,
     email: req.body.email,
     password: hashedPassword,
+    phonenumber:req.phonenumber,
+    address:req.address
   });
 
   await user.save();
-
+    console.log("User registered successfully");
   // Send a response to the client
   res
     .status(201)

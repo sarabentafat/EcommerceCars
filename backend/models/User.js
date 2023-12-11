@@ -1,28 +1,38 @@
 const mongoose = require("mongoose");
-const Joi = require("joi"); // Corrected the import statement
-const jwt=require("jsonwebtoken")
+const Joi = require("joi");
+const jwt = require("jsonwebtoken");
+
 const UserSchema = new mongoose.Schema(
   {
     username: {
       type: String,
       required: true,
-      trim: true, // delete space from the start and the end
-      minlength: 3, // minimum 3 characters
+      trim: true,
+      minlength: 3,
       maxlength: 100,
+    },
+    phonenumber: {
+      type: Number,
+      trim: true,
     },
     email: {
       type: String,
       required: true,
-      trim: true, // delete space from the start and the end
-      minlength: 5, // minimum 5 characters (fixed the comment)
+      trim: true,
+      minlength: 5,
       maxlength: 100,
       unique: true,
+    },
+    address: {
+      type: String,
+      trim: true,
+      minlength: 2,
     },
     password: {
       type: String,
       required: true,
-      trim: true, // delete space from the start and the end
-      minlength: 7, // minimum 7 characters (fixed the comment)
+      trim: true,
+      minlength: 7,
     },
     profilePic: {
       type: Object,
@@ -39,37 +49,34 @@ const UserSchema = new mongoose.Schema(
       default: false,
     },
     isAccountVerified: {
-      type: Boolean, // Corrected the property name
+      type: Boolean,
       default: false,
     },
   },
   {
-    // add 2 properties createdAt updatedAt
     timestamps: true,
-    toJSON:{virtuals:true},
-    toObject:{virtuals:true}
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true },
   }
 );
 
-//ppulate annonces that belongs to this user hen he she get his her profile 
-UserSchema.virtual("annonces",{
-  ref:"Annonce",
-  foreignField:"user",
-  localField:"_id"
-})
+// Populate annonces that belong to this user when he/she gets his/her profile
+UserSchema.virtual("annonces", {
+  ref: "Annonce",
+  foreignField: "user",
+  localField: "_id",
+});
 
-
-//generate auth token
-UserSchema.methods.generateAuthToken=function(){
- return jwt.sign(
+// Generate auth token
+UserSchema.methods.generateAuthToken = function () {
+  return jwt.sign(
     {
-    _id:this._id,
-    isAdmin:this.isAdmin
+      _id: this._id,
+      isAdmin: this.isAdmin,
     },
     process.env.JWT_SECRET
- )
-}
-
+  );
+};
 
 // User Model
 const User = mongoose.model("User", UserSchema);
@@ -77,9 +84,11 @@ const User = mongoose.model("User", UserSchema);
 // Validate Register User
 function validateRegisterUser(obj) {
   const schema = Joi.object({
-    username: Joi.string().trim().min(3).max(100).required(), // Fixed min length
+    username: Joi.string().trim().min(3).max(100).required(),
     email: Joi.string().trim().min(5).max(100).required().email(),
-    password: Joi.string().trim().min(8).required(),
+    password: Joi.string().trim().required(),
+    phonenumber: Joi.number().required(),
+    address: Joi.string().required(),
   });
   return schema.validate(obj);
 }
@@ -87,7 +96,7 @@ function validateRegisterUser(obj) {
 function validateLoginUser(obj) {
   const schema = Joi.object({
     email: Joi.string().trim().min(5).max(100).required().email(),
-    password: Joi.string().trim().min(8).required(),
+    password: Joi.string().trim().required(),
   });
   return schema.validate(obj);
 }
@@ -96,13 +105,11 @@ function validateLoginUser(obj) {
 function validateUpdateUser(obj) {
   const schema = Joi.object({
     email: Joi.string().trim().min(5).max(100),
-    password: Joi.string().trim().min(8),
-    bio:Joi.string()
+    password: Joi.string().trim(),
+    bio: Joi.string(),
   });
   return schema.validate(obj);
 }
-
-
 
 module.exports = {
   User,
