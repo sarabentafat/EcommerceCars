@@ -14,8 +14,8 @@ function PostAnnounce() {
     price: "",
     number: "",
     color: "",
-    // Add more fields as needed
   });
+
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -23,6 +23,7 @@ function PostAnnounce() {
   };
 
   const handlePosterClick = async () => {
+    
     try {
       const response = await axios.post("https://8000/api/annonces", annonce);
       console.log("Annonce publiée avec succès:", response.data);
