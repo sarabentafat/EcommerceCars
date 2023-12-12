@@ -78,6 +78,7 @@ module.exports.loginUserCtrl = asyncHandler(
       isAdmin: user.isAdmine,
       profilePic: user.profilePic,
       token,
+      username:user.username
     });
     // Response to client
   }
