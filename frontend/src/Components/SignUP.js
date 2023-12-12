@@ -21,46 +21,56 @@ export default function SignUp() {
       [name]: value,
     }));
   };
-
-  const handleSignUp = async () => {
-    if (formData.password !== confirmPassword) {
-      alert("Password and Confirm Password do not match");
-      return;
-    }
-
-    try {
-      const response = await axios.post(
-        "http://localhost:8000/api/auth/register",
-        formData
-      );
-
-      console.log("SignUp successful:", response.data);
-       alert("user created succefully <3");
-     
-     
-    } catch (error) {
-      if (error.response) {
-        // The request was made and the server responded with a status code
-        // that falls out of the range of 2xx
-        console.error("SignUp failed with response data:", error.response.data);
-
-        // Display error message to the user (replace 'errorMessageKey' with the actual key in your error response)
-        // You may need to customize this based on your server response structure
-        const errorMessage =
-          error.response.data.errorMessageKey || "SignUp failed";
-        alert(errorMessage);
-      } else if (error.request) {
-        // The request was made but no response was received
-        console.error("No response received:", error.request);
-      } else {
-        // Something happened in setting up the request that triggered an Error
-        console.error("Error setting up the request:", error.message);
+  const formSubmitHandler=(e)=>{
+    e.preventDefault();
+    handleInputChange(e)
+      if (formData.password !== confirmPassword) {
+        alert("Password and Confirm Password do not match");
+        return;
       }
-    }
-  };
+      if(formData.username.trim()==="")return toast.error("username is required")
+      console.log(formData)
+  }
+
+  // const handleSignUp = async () => {
+  //   if (formData.password !== confirmPassword) {
+  //     alert("Password and Confirm Password do not match");
+  //     return;
+  //   }
+
+  //   try {
+  //     const response = await axios.post(
+  //       "http://localhost:8000/api/auth/register",
+  //       formData
+  //     );
+
+  //     console.log("SignUp successful:", response.data);
+  //      alert("user created succefully <3");
+     
+     
+  //   } catch (error) {
+  //     if (error.response) {
+  //       // The request was made and the server responded with a status code
+  //       // that falls out of the range of 2xx
+  //       console.error("SignUp failed with response data:", error.response.data);
+
+  //       // Display error message to the user (replace 'errorMessageKey' with the actual key in your error response)
+  //       // You may need to customize this based on your server response structure
+  //       const errorMessage =
+  //         error.response.data.errorMessageKey || "SignUp failed";
+  //       alert(errorMessage);
+  //     } else if (error.request) {
+  //       // The request was made but no response was received
+  //       console.error("No response received:", error.request);
+  //     } else {
+  //       // Something happened in setting up the request that triggered an Error
+  //       console.error("Error setting up the request:", error.message);
+  //     }
+  //   }
+  // };
 
   return (
-    <div className="w-full h-full h-screen bg-zinc-100 items-center justify-center flex flex-col p-[20px] md:flex-row md:items-center md:justify-center md:p-[70px]">
+    <div className="w-full h-screen bg-zinc-100 items-center justify-center flex flex-col p-[20px] md:flex-row md:items-center md:justify-center md:p-[70px]">
       <div className="w-full h-full flex flex-col justify-center items-center md:h-full md:w-2/5 md:flex p-2 space-y-6">
         <div className="text-[45px] md:text-[65px] text-yellow-600 md:hidden ">
           Sign Up
@@ -68,7 +78,7 @@ export default function SignUp() {
         <div className="w-[290px] h-[500px] flex flex-col items-center justify-center space-y-[40px] md:items-center md:justify-center md:space-y-[30px] md:w-[330px] md:h-[510px] border-[2px] border-neutral-900">
         
             <form
-              onSubmit={handleSignUp}
+              onSubmit={formSubmitHandler}
               className="flex flex-col space-y-[15px] items-center justify-center"
             >
               <input
