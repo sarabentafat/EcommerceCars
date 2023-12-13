@@ -13,25 +13,44 @@ import { PageNotFound } from './Components/PageNotFound';
 import { ForgotPassword } from './Components/ForgotPassword';
 import Profile from './Components/Profile';
 import {useSelector} from "react-redux"
+import FirstsectionHome from './Components/FirstsectionHome';
 
 function App() {
    const {user}=useSelector(state=>state.auth)
   return (
-   
     <>
       <Nav />
-
       <Routes>
-        <Route path="/" exact element={<Home />} />
+        <Route
+          path="/"
+          exact
+          element={
+            !user ? (
+             <>
+                <FirstsectionHome />
+                <Home />
+              </>
+            ) : (
+              <Home/>
+              
+            )
+          }
+        />
         <Route path="/post" element={<PostAnnounce />} />
         <Route path="/generate" element={<GeneratePrice />} />
         <Route path="/details" element={<Details />} />
-        <Route path="/signup" element={!user? <SignUP />: <Navigate to='/'/>} />
-        <Route path="/login" element={!user? <Login />: <Navigate to='/' />} />
+        <Route
+          path="/signup"
+          element={!user ? <SignUP /> : <Navigate to="/" />}
+        />
+        <Route
+          path="/login"
+          element={!user ? <Login /> : <Navigate to="/" />}
+        />
         <Route path="/contactus" element={<ContactUs />} />
         <Route path="*" element={<PageNotFound />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
-        <Route path="profile/:id" element={<Profile/>} />
+        <Route path="profile/:id" element={<Profile />} />
       </Routes>
     </>
   );

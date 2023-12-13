@@ -5,6 +5,7 @@ import { useSelector ,useDispatch} from 'react-redux';
 import { logoutUser } from '../redux/apiCalls/authApiCall';
 
 export const Nav=() =>{
+  
   const dispatch=useDispatch()
   const {user}=useSelector(state=>state.auth)
   const [activeItem, setActiveItem] = useState(null);
@@ -32,17 +33,19 @@ export const Nav=() =>{
         >
           Home
         </Link>
-        <Link
-          className={`mt-3 hover:text-yellow-600 hover:border-yellow-600 border-b-2 ${
-            activeItem === "PostAnnonce"
-              ? "text-yellow-600 border-yellow-600 border-b-2"
-              : ""
-          }`}
-          to={"/post"}
-          onClick={() => handleItemClick("PostAnnonce")}
-        >
-          Post Annonce
-        </Link>
+        {user && (
+          <Link
+            className={`mt-3 hover:text-yellow-600 hover:border-yellow-600 border-b-2 ${
+              activeItem === "PostAnnonce"
+                ? "text-yellow-600 border-yellow-600 border-b-2"
+                : ""
+            }`}
+            to={"/post"}
+            onClick={() => handleItemClick("PostAnnonce")}
+          >
+            cree une Annonce
+          </Link>
+        )}
         <Link
           className={`mt-3 hover:text-yellow-600 hover:border-yellow-600 border-b-2 ${
             activeItem === "GeneratePrice"
@@ -92,7 +95,7 @@ export const Nav=() =>{
                     href="#"
                     className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                   >
-                    <a onClick={()=>dispatch(logoutUser())}>LogOut</a>
+                    <a onClick={() => dispatch(logoutUser())}>LogOut</a>
                   </div>
                 </div>
               )}
