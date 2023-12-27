@@ -1,0 +1,86 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+
+
+.heart-button {
+  cursor: pointer;
+  transition: transform 0.2s ease-in-out;
+}
+
+.heart-button:hover {
+  transform: scale(1.2);
+}
+
+.heart-button.liked {
+  color:#BA790B ;
+}
+@media (min-width: 380px) {
+  .xs{
+    width: 2.5rem; /* 10/4 = 2.5 */
+  }
+  .xs {
+    height: 2.5rem; /* 10/4 = 2.5 */
+  }
+  .xs{
+    transform: rotate(180deg);
+  }
+  .xs{
+    position: absolute;
+  }
+  .xs{
+    left: 3rem; 
+  }
+  .xs {
+    top: 2.5rem; 
+    
+  }
+  .xs1{
+    flex-direction: column;
+    transition-duration: 10ms;
+  }
+  .xs2{
+    margin-left: 80px;
+  }
+  .xs3{
+    width: 300px;
+  }
+  .xs4{
+    flex-direction: column;
+  }
+  .xs5{
+    display: flex;
+  }
+  .xs6{
+    width: 33.333333%;
+  }
+  .xs7{
+    width: 33.333333%;
+  }
+  .xs8{
+    width: 33.333333%;
+  }
+  .xs9{
+    margin-top: 2.5rem/* 40px */;
+  }
+  .xs10{
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+    margin-left: 6rem/* 40px */;
+    margin-right: 6rem/* 40px */;
+    gap: 2rem;
+  }
+  .xs11{
+    width: 500px;
+  }
+  .xs12{
+    padding-left:50px ;
+    padding-right:50px ;
+    font-size: 1rem;
+    text-align: center;
+    margin-left: 150px;
+  }
+}
+
+
+

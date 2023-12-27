@@ -22,6 +22,9 @@ function GeneratePrice() {
  const proprietaire=Proprietaire.o;
   return (
   <div className="flex flex-col h-screen">
+      <div className='mt-10'>
+        <Nav />
+      </div>
 
       <div className="flex flex-col  mt-28 text-lg font-serif  mx-24">
           <div className='flex mb-7'>
