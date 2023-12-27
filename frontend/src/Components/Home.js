@@ -4,31 +4,39 @@ import Car from "../Pictures/Image 13.png";
 import HeartButton from "./HeartButton";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchAnnonces } from "../redux/apiCalls/annonceApiCall.js";
 
 
 
 function Home() {
+  const dispatch=useDispatch()
+  const {annonce}=useSelector(state=>state.annonce)
+  console.log(annonce)
+  useEffect(()=>{
+    dispatch(fetchAnnonces(1))
+  },[])
   const [annonces, setAnnonces] = useState([]);
   const [currentCategory, setCurrentCategory] = useState("all");
 
-  useEffect(() => {
-    const fetchAnnonces = async () => {
-      try {
-        let apiUrl = "http://localhost:8000/api/annonces";
+  // useEffect(() => {
+  //   const fetchAnnonces = async () => {
+  //     try {
+  //       let apiUrl = "http://localhost:8000/api/annonces";
 
-        // If a specific category is selected, add it to the API URL
-        if (currentCategory !== "all") {
-          apiUrl += `?category=${currentCategory}`;
-        }
+  //       // If a specific category is selected, add it to the API URL
+  //       if (currentCategory !== "all") {
+  //         apiUrl += `?category=${currentCategory}`;
+  //       }
 
-        const response = await axios.get(apiUrl);
-        setAnnonces(response.data);
-      } catch (error) {
-        console.error("Error fetching data:", error.message);
-      }
-    };
-    fetchAnnonces();
-  }, [currentCategory]);
+  //       const response = await axios.get(apiUrl);
+  //       setAnnonces(response.data);
+  //     } catch (error) {
+  //       console.error("Error fetching data:", error.message);
+  //     }
+  //   };
+  //   fetchAnnonces();
+  // }, [currentCategory]);
 
   const handleCategoryClick = (category) => {
     setCurrentCategory(category);

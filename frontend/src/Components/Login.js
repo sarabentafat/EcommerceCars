@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import swal from "sweetalert";
 import axios from "axios";
 import login from "../images/login.png";
 import { useDispatch } from "react-redux";
@@ -7,17 +8,36 @@ import { loginUser } from "../redux/apiCalls/authApiCall";
 
 export default function Login() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const formSubmitHandler = (e) => {
+  const formSubmitHandler = async (e) => {
     e.preventDefault();
-    console.log(email);
 
-    dispatch(loginUser({ email, password }));
-    alert("user loged in succefully")
+    try {
+      const response = await dispatch(loginUser({ email, password }));
+      const { data } = response;
+
+      if (data.success) {
+        swal({
+          title: "User logged in successfully",
+          icon: "success",
+        }).then(() => {
+          navigate("/"); // Redirect to the desired page after successful login
+        });
+      } else {
+        swal({
+          title: "Login Failed",
+          text: data.message,
+          icon: "error",
+        });
+      }
+    } catch (error) {
+      console.error("Login error:", error);
+    }
   };
-
   return (
     <div className="w-full h-full items-center flex flex-col justify-center md:w-full md:h-screen bg-zinc-100 md:flex md:flex-row md:px-[80px] md:py-[30px]">
       <div className="flex flex-col w-full h-full p-7 justify-center items-start md:w-3/5 md:h-full md:flex md:flex-col md:p-8 md:space-y-[20px] md:justify-center md:items-start">

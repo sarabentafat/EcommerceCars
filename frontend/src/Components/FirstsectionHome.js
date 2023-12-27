@@ -1,6 +1,9 @@
 import { Link } from "react-router-dom";
+
 // import {Car} from "../Pictures/Image 13.png"
 const FirstsectionHome = () => {
+
+
   return (
     <div  className="bg-gray-200 bg-opacity-75 p-8 rounded-md">
       <div className="text-gray-900 flex justify-center items-center  text-xl font-serif mt-52 pb-8 text-center">
