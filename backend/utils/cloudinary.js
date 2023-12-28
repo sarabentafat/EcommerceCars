@@ -16,13 +16,8 @@ const cloudinaryUploadImage = async (fileToUpload) => {
     });
     return data;
   } catch (error) {
-    if (error.http_code === 400) {
-      // Handle specific error cases if needed
-      throw new Error("Invalid request to Cloudinary");
-    }
-
-    // If not a specific case, provide a generic message
-    throw new Error("Cloudinary upload failed");
+    console.log(error)
+    throw new Error("internal server erro Cloudinary upload failed");
   }
 };
 //clouadinary remove image 
@@ -35,8 +30,10 @@ const cloudinaryRemoveImage = async (imagePublicId) => {
     const result = await cloudinary.uploader.destroy(imagePublicId);
     return result;
   } catch (error) {
+    console.log(error)
     throw new Error(`Cloudinary image removal failed: ${error.message}`);
   }
+  //@todo remove multiple images
 };
 module.exports = {
   cloudinaryUploadImage,

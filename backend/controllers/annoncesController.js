@@ -13,15 +13,15 @@ const { post } = require('../routes/usersRoute')
  * ----------------------------------------------*/
 module.exports.createAnnonceCtrl = asyncHandler(async (req, res) => {
   // Image validation
-  console.log("wsmt hna")
+  console.log("create annonce controller")
   if (!req.file) {
    
     return res.status(400).json({ message: "No image provided" });
   }
 
-
   // Data validation
   const { error } = validateCreateAnnonce(req.body);
+  console.log('hadi cbn')
   if (error) {
     return res.status(400).json({ message: error.details[0].message });
   }
@@ -38,6 +38,7 @@ module.exports.createAnnonceCtrl = asyncHandler(async (req, res) => {
     price: req.body.price,
     category: req.body.category,
     location: req.body.location,
+    marque: req.body.marque,
     image: {
       url: result.secure_url,
       publicId: result.public_id,
@@ -58,6 +59,7 @@ module.exports.createAnnonceCtrl = asyncHandler(async (req, res) => {
  * @method  GET
  * @access  public (everyone )
  * ----------------------------------------------*/
+
 module.exports.getAllAnnoncesCtrl = asyncHandler(async (req, res) => {
    const POST_PER_IMAGE=3
    const {pageNumber,category }=req.query

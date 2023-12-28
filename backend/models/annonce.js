@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const Joi = require("joi"); // Corrected the import statement
+const Joi = require("joi");
 
 const AnnonceSchema = new mongoose.Schema(
   {
@@ -85,7 +85,7 @@ function validateCreateAnnonce(obj) {
     couleur: Joi.string().trim(),
     energie: Joi.string().trim(),
     kilometrage: Joi.number(),
-    marque: Joi.string.trim(),
+    marque: Joi.string().trim(),
   });
   return schema.validate(obj);
 }

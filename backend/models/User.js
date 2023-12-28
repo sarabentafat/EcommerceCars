@@ -37,7 +37,7 @@ const UserSchema = new mongoose.Schema(
     profilePic: {
       type: Object,
       default: {
-        url: "https://res.cloudinary.com/dq6zcl",
+        url: "https://www.kindpng.com/picc/m/451-4517876_default-profile-hd-png-download.png",
         publicId: null,
       },
     },
@@ -105,6 +105,7 @@ function validateLoginUser(obj) {
 function validateUpdateUser(obj) {
   const schema = Joi.object({
     email: Joi.string().trim().min(5).max(100),
+    username:Joi.string(),
     password: Joi.string().trim(),
     bio: Joi.string(),
   });
