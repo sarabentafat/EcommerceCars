@@ -22,13 +22,12 @@ function GeneratePrice() {
  const proprietaire=Proprietaire.o;
   return (
   <div className="flex flex-col h-screen">
-      <div className='mt-10'>
+  
         <Nav />
-      </div>
-
-      <div className="flex flex-col  mt-28 text-lg font-serif  mx-24">
+    
+      <div className="flex flex-col  mt-16 text-lg font-serif  md:mx-24 sm:mx-12 xGG">
           <div className='flex mb-7'>
-            <div  className='mr-28 w-1/3'>
+            <div  className='md:mr-28 md:w-1/3 sm:w-1/3 sm:mr-6 xG'>
             <p className='mb-3'>Wilaya</p>
             <FormControl fullWidth>
               <Select
@@ -43,7 +42,7 @@ function GeneratePrice() {
               </Select>
             </FormControl>
             </div>
-            <div  className='mr-28 w-1/3'>
+            <div  className='md:mr-28 md:w-1/3 sm:w-1/3 sm:mr-6 xG'>
             <p className='mb-3'>Marque</p>
             <FormControl fullWidth>
             <Select
@@ -58,7 +57,7 @@ function GeneratePrice() {
             </Select>
            </FormControl> 
             </div>
-            <div  className='mr-28 w-1/3'>
+            <div  className='md:mr-28 md:w-1/3 sm:w-1/3 sm:mr-6 xG'>
             <p className='mb-3'>type de vendeur</p>
             <FormControl fullWidth>
             <Select
@@ -75,7 +74,7 @@ function GeneratePrice() {
             </div>
            </div>
           <div className='flex mb-7'>
-          <div  className='mr-28 w-1/3'>
+          <div  className='md:mr-28 md:w-1/3 sm:w-1/3 sm:mr-6 xG'>
             <p className='mb-3'>Type de carburant</p>
             <FormControl fullWidth>
             <Select
@@ -90,11 +89,11 @@ function GeneratePrice() {
             </Select>
            </FormControl> 
             </div>
-            <div  className='mr-28 w-1/3'>
+            <div  className='md:mr-28 md:w-1/3 sm:w-1/3 sm:mr-6 xG'>
             <p className='mb-3'>Kilométrage</p>
             <TextField id="outlined-basic" variant="outlined" fullWidth />
             </div>
-            <div  className='mr-28 w-1/3'>
+            <div  className='md:mr-28 md:w-1/3 sm:w-1/3 sm:mr-6 xG'>
             <p className='mb-3'>Année</p>
             <FormControl fullWidth>
             <Select
@@ -111,7 +110,7 @@ function GeneratePrice() {
             </div>
           </div>
           <div className='flex  mb-7'>
-          <div  className='mr-28 w-1/3'>
+          <div  className='md:mr-28 md:w-1/3 sm:w-1/3 sm:mr-6 xG'>
             <p className='mb-3'>Transmission</p>
             <FormControl fullWidth>
             <Select
@@ -126,7 +125,7 @@ function GeneratePrice() {
             </Select>
            </FormControl> 
             </div>
-            <div  className='mr-28 w-1/3'>
+            <div  className='md:mr-28 md:w-1/3 sm:w-1/3 sm:mr-6 xG'>
             <p className='mb-3'>Proprietaire</p>
             <FormControl fullWidth>
             <Select
@@ -141,12 +140,12 @@ function GeneratePrice() {
             </Select>
            </FormControl> 
             </div>
-            <div className='mr-28 w-1/3'></div>
+            <div className='md:mr-28 md:w-1/3 sm:w-1/3 sm:mr-6 xG'></div>
           </div>
-          <div className='flex  mt-12'>
+          <div className='flex  mt-12 mb-10'>
             
-            <p  className='ml-4 w-1/2'>Le Prix généré : <span className='text-[#BA790B]'> 400 Millions</span></p>
-            <button className="bg-[#171717E5] text-white py-3 px-[99px] ml-44  text-lg">
+            <p  className='md:ml-4 md:w-1/2  sm:w-1/2 xsl'>Le Prix généré : <span className='text-[#BA790B]'> 400 Millions</span></p>
+            <button className="bg-[#171717E5] text-white py-3 md:px-[98px] md:ml-44 sm:px-[59px] text-lg sm:ml-28 xsl1">
                    Generate
                   </button>
           </div>

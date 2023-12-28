@@ -39,6 +39,7 @@
   .xs1{
     flex-direction: column;
     transition-duration: 10ms;
+    margin-left: -4rem;
   }
   .xs2{
     margin-left: 80px;
@@ -80,6 +81,44 @@
     text-align: center;
     margin-left: 150px;
   }
+  .xs13{
+   
+    margin-left: 7rem;
+    
+  }
+  .xs15{
+    
+    margin-left: 7rem;
+  }
+  .xss{
+    
+    flex-direction: column;
+  }
+  .xss1{
+    margin-bottom: 1.5rem;
+  }
+  .xss2{
+    margin-bottom: 3rem;
+    margin-top: 1.5rem;
+  }
+  .xG{
+    margin-right: 1rem;
+    width: 33.333333%;
+  }
+  .xsl{
+    width: 50%;
+  }
+  .xsl1{
+    margin-left: 5rem;
+    padding-left: 30.5px;
+    padding-right: 30.5px;
+
+  }
+  .xGG{
+    margin-left: 0.6rem/* 48px */;
+    margin-right: 0.2rem/* 48px */;
+  }
+
 }
 
 

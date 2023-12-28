@@ -11,7 +11,7 @@ export const Nav = () => {
    
   let [isOpen,setisOpen] =useState(false);
   return (
-    <nav className=" flex items-center p-10   ">
+    <nav className={`flex items-center p-10  ${isOpen ? 'mb-32 ':'mb-0'} ` }>
       <div onClick={()=>setisOpen(!isOpen)}
       className='md:hidden  sm:w-10 sm:h-10 sm:rotate-180 sm:absolute sm:left-28  sm:top-10 xs '>
         {
@@ -22,7 +22,7 @@ export const Nav = () => {
       </div>
       
       <ul className={`flex  md:flex-row space-x-20 font-serif text-lg sm:flex-col absolute  md:static 
-       duration-[10ms] xs1
+       duration-[10ms] xs1 sm:ml-1
       ${isOpen ? 'top-[70px] ':'top-[-450px]'}  `}>
         <Link
            className={`xs2 sm:ml-20  mt-3 hover:text-yellow-600 hover:border-yellow-600 border-b-2 ${
