@@ -1,6 +1,7 @@
 import { profileActions } from "../slices/profileSlice";
 import request from "../../utils/request";
 import { toast } from "react-toastify";
+import { authActions } from "../slices/authSlice";
 
 // get user profile
 export function getUserProfile(id) {
@@ -66,6 +67,52 @@ export function uploadProfilePhoto(newPhoto) {
 
       // Log the error for further debugging if needed
       console.error("Error in uploadprofilephoto:", error);
+    }
+  };
+}
+//update profile
+export function updateProfile(userId, profile) {
+
+  return async (dispatch, getState) => {
+    try {
+      console.log(profile)
+      console.log("problem here")
+      const { data } = await request.put(
+        `/api/users/profile/${userId}`,
+        profile,
+        {
+          headers: {
+            Authorization: "Bearer " + getState().auth.user.token,
+          },
+        }
+      );
+      console.log(data)
+
+      dispatch(profileActions.updateProfile(data));
+      dispatch(authActions.setUsername(data.username));
+
+      // Corrected the method to JSON.parse
+      const user = JSON.parse(localStorage.getItem("userInfo"));
+      user.username = data?.username;
+      localStorage.setItem("userInfo", JSON.stringify(user));
+
+      // Corrected the method to toast.success()
+      toast.success(data.message);
+    } catch (error) {
+      // Handle different error scenarios
+      if (error.response) {
+        // Corrected the method to toast.error()
+        toast.error(error.response.data.message);
+      } else if (error.request) {
+        // The request was made but no response was received
+        toast.error("No response received from the server.");
+      } else {
+        // Something happened in setting up the request that triggered an error
+        toast.error("An unexpected error occurred.");
+      }
+
+      // Log the error for further debugging if needed
+      console.error("Error in updateProfile:", error);
     }
   };
 }
