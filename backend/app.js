@@ -27,6 +27,7 @@ connectToDb()
 app.use("/api/auth",require("./routes/authRoute"))
 app.use("/api/users", require("./routes/usersRoute"));
 app.use("/api/annonces", require("./routes/annoncesRoute"));
+app.use("/api/categories", require("./routes/categoriesRoute"));
 
 
 app.get("/", (req, res) => {
