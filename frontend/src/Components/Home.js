@@ -11,12 +11,12 @@ import { fetchAnnonces } from "../redux/apiCalls/annonceApiCall.js";
 
 function Home() {
   const dispatch=useDispatch()
-  const {annonce}=useSelector(state=>state.annonce)
-  console.log(annonce)
+  const {annonces}=useSelector(state=>state.annonce)
+  console.log(annonces)
   useEffect(()=>{
     dispatch(fetchAnnonces(1))
   },[])
-  const [annonces, setAnnonces] = useState([]);
+  // const [annonces, setAnnonces] = useState([]);
   const [currentCategory, setCurrentCategory] = useState("all");
 
   // useEffect(() => {

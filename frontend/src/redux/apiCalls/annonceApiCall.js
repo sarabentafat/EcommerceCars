@@ -10,7 +10,7 @@ export function fetchAnnonces(pageNumber) {
         `/api/annonces?pageNumber=${pageNumber}`
       );
     //   console.log(data)
-      dispatch(annonceActions.setAnnonce(data));
+      dispatch(annonceActions.setAnnonces(data));
           
     //   const {payload}=dispatch(annonceActions.setAnnonce(data))
     //       console.log(payload)
