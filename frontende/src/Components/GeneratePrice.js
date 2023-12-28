@@ -146,7 +146,7 @@ function GeneratePrice() {
             
             <p  className='md:ml-4 md:w-1/2  sm:w-1/2 xsl'>Le Prix généré : <span className='text-[#BA790B]'> 400 Millions</span></p>
             <button className="bg-[#171717E5] text-white py-3 md:px-[98px] md:ml-44 sm:px-[59px] text-lg sm:ml-28 xsl1">
-                   Generate
+                   Génerer
                   </button>
           </div>
 

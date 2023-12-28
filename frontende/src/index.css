@@ -118,7 +118,36 @@
     margin-left: 0.6rem/* 48px */;
     margin-right: 0.2rem/* 48px */;
   }
-
+   .ss{
+    margin-left: 2.5rem/* 40px */;
+    margin-right: 1rem/* 16px */;
+    flex-direction: column;
+   }
+   .ss1{
+    width: 500px;
+    height: 300px;
+   }
+   .ss2{
+    margin-top: 2rem/* 32px */;
+   }
+   .ss3{
+    margin-left: 1.5rem;
+    margin-top: 2rem;
+   }
+   .ss4{
+    width: 50%;
+   }
+   .ss5{
+    margin-left: 2rem;
+   }
+   .ss6{
+    margin-left: 0.8rem;
+   }
+   .ss7{
+    padding-left: 20px;
+    padding-right: 20px;
+    margin-left: 0.2rem;
+   }
 }
 
 
