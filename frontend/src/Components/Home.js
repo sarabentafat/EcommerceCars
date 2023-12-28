@@ -5,16 +5,26 @@ import HeartButton from "./HeartButton";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchAnnonces } from "../redux/apiCalls/annonceApiCall.js";
+import { fetchAnnonces, getAnnoncesCount } from "../redux/apiCalls/annonceApiCall.js";
+import Pagination from "./Pagination.js"
 
 
 
 function Home() {
+  const ANNONCE_PER_Page=3
+  const { annoncesCount, annonces } = useSelector((state) => state.annonce);
+  console.log(annoncesCount)
+  const [currentPage,setCurrentPage]=useState(1)
+  const pages=Math.ceil(annoncesCount/ANNONCE_PER_Page)
   const dispatch=useDispatch()
-  const {annonces}=useSelector(state=>state.annonce)
+ 
   console.log(annonces)
   useEffect(()=>{
-    dispatch(fetchAnnonces(1))
+    dispatch(fetchAnnonces(currentPage))
+    window.scrollTo(0,0)
+  },[currentPage])
+  useEffect(()=>{
+        dispatch(getAnnoncesCount());
   },[])
   // const [annonces, setAnnonces] = useState([]);
   const [currentCategory, setCurrentCategory] = useState("all");
@@ -246,10 +256,14 @@ function Home() {
               {/* Repeat the above structure for the other two images */}
             </div>
 
-            {/* Button at the end */}
-            <button className="bg-gray-200 border border-black border-opacity-92 text-black px-8 py-2   my-14 mx-60    ">
-              load more
-            </button>
+            {/*PAGINATION COMPONENT TO LOAD MORE DATA*/}
+            <div className="bg-gray-200 border border-black border-opacity-92 text-black w-[30%] my-20 mx-auto    ">
+             <Pagination
+             pages={pages}
+             currentPage={currentPage}
+             setCurrentPage={setCurrentPage}
+             />
+            </div>
           </div>
         </div>
       </div>
