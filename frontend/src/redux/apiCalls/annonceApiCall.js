@@ -12,8 +12,7 @@ export function fetchAnnonces(pageNumber) {
     //   console.log(data)
       dispatch(annonceActions.setAnnonces(data));
           
-    //   const {payload}=dispatch(annonceActions.setAnnonce(data))
-    //       console.log(payload)
+   console.log(data)
     } catch (error) {
       if (error.response) {
         // The server responded with an error status
@@ -56,6 +55,33 @@ export function getAnnoncesCount(pageNumber) {
       }
 
       console.error("Error in fetchAnnonces:", error);
+    }
+  };
+}
+// fetch annonces based on category
+export function fetchAnnoncesBasesOnCategory(category) {
+  return async (dispatch) => {
+    try {
+      const { data } = await request.get(
+        `/api/annonces?category=${category}`
+      );
+    //   console.log(data)
+      dispatch(annonceActions.setAnnoncesCate(data));
+          
+    //   const {payload}=dispatch(annonceActions.setAnnonce(data))
+    //       console.log(payload)
+    } catch (error) {
+  toast.error(error.response.data.message)    }
+  };
+}
+export function fetchAnnoncesCate(category) {
+  return async (dispatch) => {
+    try {
+      const { data } = await request.get(`/api/categories`);
+      //   console.log(data)
+      dispatch(annonceActions.setCategories(data));
+    } catch (error) {
+      toast.error(error.response.data.message);
     }
   };
 }

@@ -5,58 +5,62 @@ import HeartButton from "./HeartButton";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchAnnonces, getAnnoncesCount } from "../redux/apiCalls/annonceApiCall.js";
+import { fetchAnnonces, fetchAnnoncesBasesOnCategory, fetchAnnoncesCate, getAnnoncesCount } from "../redux/apiCalls/annonceApiCall.js";
 import Pagination from "./Pagination.js"
 
 
 
 function Home() {
   const ANNONCE_PER_Page=3
-  const { annoncesCount, annonces } = useSelector((state) => state.annonce);
-  console.log(annoncesCount)
+  const [currentCategory, setCurrentCategory] = useState("all");
+const [actualAnnonces,setActualAnnonces]=useState([])
+  const { annoncesCount, annonces, annoncesCate ,categories} = useSelector(
+    (state) => state.annonce
+  );
   const [currentPage,setCurrentPage]=useState(1)
+  
   const pages=Math.ceil(annoncesCount/ANNONCE_PER_Page)
   const dispatch=useDispatch()
- 
-  console.log(annonces)
+
   useEffect(()=>{
-    dispatch(fetchAnnonces(currentPage))
+    if(currentCategory=="all"){
+    dispatch(fetchAnnonces(currentPage));
+    setActualAnnonces(annonces)
+    console.log(actualAnnonces)
+  
+    }else{
+        dispatch(fetchAnnoncesBasesOnCategory(currentCategory));
+         setActualAnnonces(annoncesCate);
+    }
     window.scrollTo(0,0)
-  },[currentPage])
+  },[currentPage,currentCategory])
   useEffect(()=>{
         dispatch(getAnnoncesCount());
+        dispatch(fetchAnnoncesCate());
   },[])
-  // const [annonces, setAnnonces] = useState([]);
-  const [currentCategory, setCurrentCategory] = useState("all");
+    useEffect(() => {
+      dispatch(fetchAnnoncesBasesOnCategory(categories[0]?.title));
+    }, [categories[0]?.title]);
 
-  // useEffect(() => {
-  //   const fetchAnnonces = async () => {
-  //     try {
-  //       let apiUrl = "http://localhost:8000/api/annonces";
-
-  //       // If a specific category is selected, add it to the API URL
-  //       if (currentCategory !== "all") {
-  //         apiUrl += `?category=${currentCategory}`;
-  //       }
-
-  //       const response = await axios.get(apiUrl);
-  //       setAnnonces(response.data);
-  //     } catch (error) {
-  //       console.error("Error fetching data:", error.message);
-  //     }
-  //   };
-  //   fetchAnnonces();
-  // }, [currentCategory]);
-
-  const handleCategoryClick = (category) => {
-    setCurrentCategory(category);
+  
+const categoryElements = categories.map((category) => (
+  <div
+    className={`flex-1 text-center cursor-pointer hover:bg-black hover:text-white border border-black py-3 ${
+      currentCategory === category.title && "bg-black text-white"
+    }`}
+    onClick={() => handleCategoryClick(category.title)}
+  >
+    {category.title}
+  </div>
+));
+  const handleCategoryClick = (categoryTitle) => {
+    setCurrentCategory(categoryTitle);
+   fetchAnnoncesBasesOnCategory(categoryTitle);
   };
 
   return (
     <div className="font-serif  text-gray-900">
       <div className="bg-gray-200 bg-opacity-75 p-8 rounded-md">
-
-
         {/* Two Columns Section */}
         <div className="flex mt-20  ">
           {/* First Column */}
@@ -193,31 +197,15 @@ function Home() {
 
           {/* Second Column */}
           <div className="w-3/4 pl-4 mr-20">
+            <div className="bg-red-500">
+              {/* hh{" "}
+              {annoncesCate?.map((category) => (
+                <div key={category.id}>{category.title}</div>
+              ))} */}
+            </div>
+
             <div className="flex bg-gray-200 p-4 rounded-md text-xl ">
-              <div
-                className={`flex-1 text-center cursor-pointer hover:bg-black hover:text-white border border-black py-3 ${
-                  currentCategory === "cars" && "bg-black text-white"
-                }`}
-                onClick={() => handleCategoryClick("cars")}
-              >
-                Car
-              </div>
-              <div
-                className={`flex-1 text-center cursor-pointer hover:bg-black hover:text-white border border-black py-3 ${
-                  currentCategory === "camion" && "bg-black text-white"
-                }`}
-                onClick={() => handleCategoryClick("camion")}
-              >
-                Camion
-              </div>
-              <div
-                className={`flex-1 text-center cursor-pointer hover:bg-black hover:text-white border border-black py-3 ${
-                  currentCategory === "motors" && "bg-black text-white"
-                }`}
-                onClick={() => handleCategoryClick("motors")}
-              >
-                Motors
-              </div>
+              {categoryElements}
               <div
                 className={`flex-1 text-center cursor-pointer hover:bg-black hover:text-white border border-black py-3 ${
                   currentCategory === "all" && "bg-black text-white"
@@ -230,7 +218,8 @@ function Home() {
             {/* Three Rows of Images */}
             <div className="flex mt-4">
               <div className="grid grid-cols-3 gap-8 ml-6">
-                {annonces.map((annonce) => (
+                
+                {actualAnnonces.map((annonce) => (
                   <div key={annonce._id} className="flex-1 ml-5">
                     <div className="relative ">
                       <HeartButton className="absolute top-0 right-0 mt-2 mr-2 " />
@@ -258,11 +247,11 @@ function Home() {
 
             {/*PAGINATION COMPONENT TO LOAD MORE DATA*/}
             <div className="bg-gray-200 border border-black border-opacity-92 text-black w-[30%] my-20 mx-auto    ">
-             <Pagination
-             pages={pages}
-             currentPage={currentPage}
-             setCurrentPage={setCurrentPage}
-             />
+              <Pagination
+                pages={pages}
+                currentPage={currentPage}
+                setCurrentPage={setCurrentPage}
+              />
             </div>
           </div>
         </div>

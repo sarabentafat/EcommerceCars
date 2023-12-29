@@ -3,9 +3,10 @@ import { createSlice } from "@reduxjs/toolkit";
 const annonceSlice = createSlice({
   name: "annonce",
   initialState: {
-    annonces:[],
+    annonces: [],
     annoncesCount: null,
     annoncesCate: [],
+    categories:[]
   },
   reducers: {
     setAnnonces(state, action) {
@@ -14,8 +15,11 @@ const annonceSlice = createSlice({
     setAnnoncesCount(state, action) {
       state.annoncesCount = action.payload;
     },
-    setAnnonceCate(state, action) {
-      state.annoncesCate=action.payload
+    setAnnoncesCate(state, action) {
+      state.annoncesCate = action.payload;
+    },
+    setCategories(state, action) {
+      state.categories = action.payload;
     },
   },
 });
