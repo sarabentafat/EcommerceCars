@@ -5,7 +5,11 @@ import { useNavigate } from "react-router-dom";
 import { createAnnonce } from "../redux/apiCalls/annonceApiCall.js";
 import { toast } from "react-toastify";
 import {RotatingLines} from "react-loader-spinner"
-
+import Wilayas from "./Json/wilayas.json";
+import typeCarburant from "./Json/typeCarburant.json"
+import MenuItem from "@mui/material/MenuItem";
+import marqueData from "./Json/marque.json"
+import transmissionData from "./Json/transmission.json"
 function PostAnnounce() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -65,6 +69,7 @@ const annonce = {
   wilaya: wilaya,
   couleur: couleur,
 };
+ const wilayas = Wilayas.w;
 
 console.log(annonce)
     dispatch(createAnnonce(formData));
@@ -102,15 +107,22 @@ console.log(annonce)
           </div>
           <div className="ml-12 mb-3">
             <TextField
+              select
               name="marque"
               value={marque}
               onChange={(e) => setMarque(e.target.value)}
               id="standard-basic"
-              label="Modéle"
+              label="Marque"
               variant="standard"
-            />
+            >
+              {marqueData.m.map((marqueOption) => (
+                <MenuItem key={marqueOption.name} value={marqueOption.name}>
+                  {marqueOption.name}
+                </MenuItem>
+              ))}
+            </TextField>
           </div>
-          <div className="ml-12 mb-3">
+          <div className="ml-12 mb-3 w-full">
             <TextField
               name="kilometrage"
               value={kilometrage}
@@ -118,9 +130,16 @@ console.log(annonce)
               id="standard-basic"
               label="Kilométrage"
               variant="standard"
-            />
+              select
+            >
+              {transmissionData.t.map((transmission)=>(
+                <MenuItem key={transmission} value={transmission}>
+                  {transmission}</MenuItem>
+              ))
+              }
+            </TextField>
           </div>
-          <div className="ml-12 mb-3">
+          <div className="ml-12 mb-3 w-full">
             <TextField
               name="energie"
               value={energie}
@@ -128,7 +147,14 @@ console.log(annonce)
               id="standard-basic"
               label="Energie"
               variant="standard"
-            />
+              select // Make sure you include the select property here
+            >
+              {typeCarburant.c.map((energieType) => (
+                <MenuItem key={energieType} value={energieType}>
+                  {energieType}
+                </MenuItem>
+              ))}
+            </TextField>
           </div>
         </div>
 
@@ -145,13 +171,20 @@ console.log(annonce)
           </div>
           <div className="mb-3">
             <TextField
+              select
               name="wilaya"
               value={wilaya}
               onChange={(e) => setWilaya(e.target.value)}
               id="standard-basic"
               label="Wilaya"
               variant="standard"
-            />
+            >
+              {Wilayas.w.map((wilayaOption) => (
+                <MenuItem key={wilayaOption.id} value={wilayaOption.name}>
+                  {wilayaOption.name}
+                </MenuItem>
+              ))}
+            </TextField>
           </div>
           <div className="mb-3">
             <TextField
