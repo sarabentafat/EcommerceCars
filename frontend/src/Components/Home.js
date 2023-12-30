@@ -1,61 +1,63 @@
 import { useState, useEffect } from "react";
-import Nav from "./Nav.js";
-import Car from "../Pictures/Image 13.png";
-import HeartButton from "./HeartButton";
-import axios from "axios";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchAnnonces, fetchAnnoncesBasesOnCategory, fetchAnnoncesCate, getAnnoncesCount } from "../redux/apiCalls/annonceApiCall.js";
-import Pagination from "./Pagination.js"
-
-
+import {
+  fetchAnnonces,
+  toggleLikeAnnonce,
+  fetchAnnoncesBasesOnCategory,
+  fetchAnnoncesCate,
+  getAnnoncesCount,
+} from "../redux/apiCalls/annonceApiCall.js";
+import Pagination from "./Pagination.js";
 
 function Home() {
-  const ANNONCE_PER_Page=3
+  const ANNONCE_PER_Page = 3;
+  const { user } = useSelector((state) => state.auth);
   const [currentCategory, setCurrentCategory] = useState("all");
-const [actualAnnonces,setActualAnnonces]=useState([])
-  const { annoncesCount, annonces, annoncesCate ,categories} = useSelector(
+  const [actualAnnonces, setActualAnnonces] = useState([]);
+  const { annoncesCount, annonces, annoncesCate, categories } = useSelector(
     (state) => state.annonce
   );
-  const [currentPage,setCurrentPage]=useState(1)
-  
-  const pages=Math.ceil(annoncesCount/ANNONCE_PER_Page)
-  const dispatch=useDispatch()
+  const [currentPage, setCurrentPage] = useState(1);
 
-  useEffect(()=>{
-    if(currentCategory=="all"){
-    dispatch(fetchAnnonces(currentPage));
-    setActualAnnonces(annonces)
-    console.log(actualAnnonces)
-  
-    }else{
-        dispatch(fetchAnnoncesBasesOnCategory(currentCategory));
-         setActualAnnonces(annoncesCate);
+  const pages = Math.ceil(annoncesCount / ANNONCE_PER_Page);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (currentCategory === "all") {
+      dispatch(fetchAnnonces(currentPage));
+      setActualAnnonces(annonces);
+    } else {
+      dispatch(fetchAnnoncesBasesOnCategory(currentCategory));
+      setActualAnnonces(annoncesCate);
     }
-    window.scrollTo(0,0)
-  },[currentPage,currentCategory])
-  useEffect(()=>{
-        dispatch(getAnnoncesCount());
-        dispatch(fetchAnnoncesCate());
-  },[])
-    useEffect(() => {
-      dispatch(fetchAnnoncesBasesOnCategory(categories[0]?.title));
-    }, [categories[0]?.title]);
+    window.scrollTo(0, 0);
+  }, [currentPage, currentCategory, dispatch, annonces, annoncesCate]);
 
-  
-const categoryElements = categories.map((category) => (
-  <div
-    className={`flex-1 text-center cursor-pointer hover:bg-black hover:text-white border border-black py-3 ${
-      currentCategory === category.title && "bg-black text-white"
-    }`}
-    onClick={() => handleCategoryClick(category.title)}
-  >
-    {category.title}
-  </div>
-));
+  useEffect(() => {
+    dispatch(getAnnoncesCount());
+    dispatch(fetchAnnoncesCate());
+  }, [dispatch]);
+
+  useEffect(() => {
+    dispatch(fetchAnnoncesBasesOnCategory(categories[0]?.title));
+  }, [categories[0]?.title, dispatch]);
+
+  const categoryElements = categories.map((category) => (
+    <div
+      key={category.id}
+      className={`flex-1 text-center cursor-pointer hover:bg-black hover:text-white border border-black py-3 ${
+        currentCategory === category.title && "bg-black text-white"
+      }`}
+      onClick={() => handleCategoryClick(category.title)}
+    >
+      {category.title}
+    </div>
+  ));
+
   const handleCategoryClick = (categoryTitle) => {
     setCurrentCategory(categoryTitle);
-   fetchAnnoncesBasesOnCategory(categoryTitle);
+    dispatch(fetchAnnoncesBasesOnCategory(categoryTitle));
   };
 
   return (
@@ -218,18 +220,46 @@ const categoryElements = categories.map((category) => (
             {/* Three Rows of Images */}
             <div className="flex mt-4">
               <div className="grid grid-cols-3 gap-8 ml-6">
-                {actualAnnonces.map((annonce) => (
-                  <div key={annonce._id} className="flex-1 ml-5">
+                {actualAnnonces?.map((annonce) => (
+                  <div key={annonce?._id} className="flex-1 ml-5">
                     <div className="relative ">
-                      <HeartButton className="absolute top-0 right-0 mt-2 mr-2 " />
+                      <button
+                        className={
+                          annonce?.likes.includes(user?._id)
+                            ? "heart-button liked absolute top-0 right-0 mt-2 mr-2"
+                            : "heart-button absolute top-0 right-0 mt-2 mr-2"
+                        }
+                        onClick={() =>
+                          dispatch(toggleLikeAnnonce(annonce?._id))
+                        }
+                      >
+                        <svg
+                          className="w-4 h-4"
+                          fill={
+                            annonce?.likes.includes(user?._id)
+                              ? "#BA790B"
+                              : "none"
+                          }
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="1"
+                            d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C15.09 3.81 16.76 3 18.5 3 21.58 3 24 5.42 24 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"
+                          ></path>
+                        </svg>
+                      </button>
                       <img
-                        src={annonce.image.url}
-                        alt={annonce.title}
+                        src={annonce?.image.url}
+                        alt={annonce?.title}
                         style={{ maxWidth: "100%", height: "auto" }}
                       />
                     </div>
-                    <p className="pb-3 pt-1">{annonce.title}</p>
-                    <p className="text-xs pb-3">{annonce.description}</p>
+                    <p className="pb-3 pt-1">{annonce?.title}</p>
+                    <p className="text-xs pb-3">{annonce?.description}</p>
 
                     <p className="text-yellow-600 text-base  pb-3">
                       {annonce.price}
