@@ -65,6 +65,10 @@ const AnnonceSchema = new mongoose.Schema(
       type: Number,
       required: true,
     },
+    wilaya:{
+      type : String ,
+      required:false
+    }
   },
   {
     // add 2 properties createdAt updatedAt
@@ -86,6 +90,7 @@ function validateCreateAnnonce(obj) {
     energie: Joi.string().trim(),
     kilometrage: Joi.number(),
     marque: Joi.string().trim(),
+    wilaya: Joi.string().trim(),
   });
   return schema.validate(obj);
 }
