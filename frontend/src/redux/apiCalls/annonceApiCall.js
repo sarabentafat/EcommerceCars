@@ -85,3 +85,25 @@ export function fetchAnnoncesCate(category) {
     }
   };
 }
+// Create annonce
+export function createAnnonce(newAnnonce) {
+  return async (dispatch, getState) => {
+   
+    try {
+       dispatch(annonceActions.setLoading());
+      await request.post(`/api/annonces`, newAnnonce, {
+        headers: {
+          Authorization: "Bearer " + getState().auth.user.token,
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      console.log(newAnnonce)
+
+      dispatch(annonceActions.setIsAnnonceCreated());
+      setTimeout(() => dispatch(annonceActions.clearIsAnnonceCreated()), 2000);
+    } catch (error) {
+      toast.error(error.response.data.message);
+      dispatch(annonceActions.clearLoading());
+    }
+  };
+}

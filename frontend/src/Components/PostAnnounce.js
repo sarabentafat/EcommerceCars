@@ -1,47 +1,90 @@
-import React, { useState } from "react";
-import Nav from "./Nav.js";
+import React, { useState, useEffect } from "react";
 import TextField from "@mui/material/TextField";
-import axios from "axios";
+import { useSelector, useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { createAnnonce } from "../redux/apiCalls/annonceApiCall.js";
+import { toast } from "react-toastify";
+import {RotatingLines} from "react-loader-spinner"
 
 function PostAnnounce() {
-  const [annonce, setAnnonce] = useState({
-    title: "",
-    description: "",
-    model: "",
-    mileage: "",
-    fuelType: "",
-    transmission: "",
-    price: "",
-    number: "",
-    color: "",
-  });
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { loading, isAnnonceCreated } = useSelector((state) => state.annonce);
+
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [marque, setMarque] = useState("");
+  const [category,setCategory]=useState('')
+  const [kilometrage, setKilometrage] = useState("");
+  const [energie, setEnergie] = useState("");
+  const [price, setPrice] = useState("");
+  const [wilaya, setWilaya] = useState("");
+  const [couleur, setCouleur] = useState("");
+  const [file,setFile]=useState('')
 
 
-  const handleInputChange = (event) => {
-    const { name, value } = event.target;
-    setAnnonce({ ...annonce, [name]: value });
+  const handlePosterClick = async (e) => {
+    e.preventDefault();
+    // Check for required fields
+    if (title.trim() === "") return toast.error("Annonce title is required");
+    if (description.trim() === "")
+      return toast.error("Annonce description is required");
+    if (marque.trim() === "") return toast.error("Annonce marque is required");
+    if (kilometrage.trim() === "")
+      return toast.error("Annonce kilometrage is required");
+    if (energie.trim() === "")
+      return toast.error("Annonce energie is required");
+
+    if (price.trim() === "") return toast.error("Annonce price is required");
+    if (wilaya.trim() === "") return toast.error("Annonce wilaya is required");
+    if (couleur.trim() === "")
+      return toast.error("Annonce couleur is required");
+    if (!file) return toast.error("Annonce image is required");
+
+const formData = new FormData();
+    formData.append("image", file);
+    formData.append("title", title);
+    formData.append("description", description);
+    formData.append("marque", marque);
+    formData.append("kilometrage", kilometrage);
+    formData.append("energie", energie);
+    formData.append("price", price);
+    formData.append("wilaya", wilaya);
+    formData.append("couleur", couleur);
+      formData.append("category", category);
+    console.log(title)
+    console.log(formData);
+const annonce = {
+  title: title,
+  description: description,
+  marque: marque,
+  category:category,
+  kilometrage: kilometrage,
+  energie: energie,
+  price: price,
+  wilaya: wilaya,
+  couleur: couleur,
+};
+
+console.log(annonce)
+    dispatch(createAnnonce(formData));
   };
 
-  const handlePosterClick = async () => {
-    
-    try {
-      const response = await axios.post("https://8000/api/annonces", annonce);
-      console.log("Annonce publiée avec succès:", response.data);
-    } catch (error) {
-      console.error("Erreur lors de la publication de l'annonce:", error);
+  useEffect(() => {
+    if (isAnnonceCreated) {
+      navigate("/");
     }
-  };
+  }, [isAnnonceCreated, navigate]);
 
   return (
     <div className="flex flex-col h-screen">
-
       <div className="flex flex-1 mt-32 text-2xl font-serif">
         <div className="flex flex-col w-1/2 ml-64">
           <div className="ml-12 mb-3">
             <TextField
               name="title"
-              value={annonce.title}
-              onChange={handleInputChange}
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
               id="standard-basic"
               label="Titre"
               variant="standard"
@@ -50,8 +93,8 @@ function PostAnnounce() {
           <div className="ml-12 mb-3">
             <TextField
               name="description"
-              value={annonce.description}
-              onChange={handleInputChange}
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
               id="standard-basic"
               label="Description"
               variant="standard"
@@ -59,9 +102,9 @@ function PostAnnounce() {
           </div>
           <div className="ml-12 mb-3">
             <TextField
-              name="model"
-              value={annonce.model}
-              onChange={handleInputChange}
+              name="marque"
+              value={marque}
+              onChange={(e) => setMarque(e.target.value)}
               id="standard-basic"
               label="Modéle"
               variant="standard"
@@ -69,9 +112,9 @@ function PostAnnounce() {
           </div>
           <div className="ml-12 mb-3">
             <TextField
-              name="mileage"
-              value={annonce.mileage}
-              onChange={handleInputChange}
+              name="kilometrage"
+              value={kilometrage}
+              onChange={(e) => setKilometrage(e.target.value)}
               id="standard-basic"
               label="Kilométrage"
               variant="standard"
@@ -79,21 +122,11 @@ function PostAnnounce() {
           </div>
           <div className="ml-12 mb-3">
             <TextField
-              name="fuelType"
-              value={annonce.fuelType}
-              onChange={handleInputChange}
+              name="energie"
+              value={energie}
+              onChange={(e) => setEnergie(e.target.value)}
               id="standard-basic"
               label="Energie"
-              variant="standard"
-            />
-          </div>
-          <div className="ml-12 mb-3">
-            <TextField
-              name="transmission"
-              value={annonce.transmission}
-              onChange={handleInputChange}
-              id="standard-basic"
-              label="Transmission"
               variant="standard"
             />
           </div>
@@ -102,19 +135,9 @@ function PostAnnounce() {
         <div className="w-1/2">
           <div className="mb-3">
             <TextField
-              name="model"
-              value={annonce.model}
-              onChange={handleInputChange}
-              id="standard-basic"
-              label="Modéle"
-              variant="standard"
-            />
-          </div>
-          <div className="mb-3">
-            <TextField
               name="price"
-              value={annonce.price}
-              onChange={handleInputChange}
+              value={price}
+              onChange={(e) => setPrice(e.target.value)}
               id="standard-basic"
               label="Prix"
               variant="standard"
@@ -122,32 +145,61 @@ function PostAnnounce() {
           </div>
           <div className="mb-3">
             <TextField
-              name="number"
-              value={annonce.number}
-              onChange={handleInputChange}
+              name="wilaya"
+              value={wilaya}
+              onChange={(e) => setWilaya(e.target.value)}
               id="standard-basic"
-              label="Number"
+              label="Wilaya"
               variant="standard"
             />
           </div>
           <div className="mb-3">
             <TextField
-              name="color"
-              value={annonce.color}
-              onChange={handleInputChange}
+              name="couleur"
+              value={couleur}
+              onChange={(e) => setCouleur(e.target.value)}
               id="standard-basic"
               label="Couleur"
               variant="standard"
             />
           </div>
-          <button className="bg-[#BA790B] text-white py-1 px-7 mt-10 text-lg">
-            Load Photo
-          </button>
+          <div className="mb-3">
+            <TextField
+              name="category"
+              value={category}
+              onChange={(e) => setCategory(e.target.value)}
+              id="standard-basic"
+              label="category"
+              variant="standard"
+            />
+          </div>
+          <div className="bg-[#BA790B] text-white py-1 px-7 mt-10 text-lg">
+            <input
+              type="file"
+              name="file"
+              onChange={(e) => setFile(e.target.files[0])}
+              accept="image/*"
+            />
+          </div>
           <button
             className="bg-black text-white py-1 px-7 ml-2 text-lg"
             onClick={handlePosterClick}
           >
-            Poster
+            {loading ? (
+              <RotatingLines
+                visible={true}
+                height="96"
+                width="96"
+                color="grey"
+                strokeWidth="5"
+                animationDuration="0.75"
+                ariaLabel="rotating-lines-loading"
+                wrapperStyle={{}}
+                wrapperClass=""
+              />
+            ) : (
+              "Poster"
+            )}
           </button>
         </div>
       </div>

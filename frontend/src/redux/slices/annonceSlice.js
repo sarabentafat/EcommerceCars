@@ -6,7 +6,9 @@ const annonceSlice = createSlice({
     annonces: [],
     annoncesCount: null,
     annoncesCate: [],
-    categories:[]
+    categories: [],
+    loading: false,
+    isAnnonceCreated: false,
   },
   reducers: {
     setAnnonces(state, action) {
@@ -20,6 +22,19 @@ const annonceSlice = createSlice({
     },
     setCategories(state, action) {
       state.categories = action.payload;
+    },
+    setLoading(state) {
+      state.loading = true;
+    },
+    clearLoading(state) {
+      state.loading = false;
+    },
+    setIsAnnonceCreated(state) {
+      state.isAnnonceCreated = true;
+      state.loading = false;
+    },
+    clearIsAnnonceCreated(state) {
+      state.isAnnonceCreated = false;
     },
   },
 });
