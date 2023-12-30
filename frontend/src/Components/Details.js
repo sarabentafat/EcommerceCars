@@ -3,17 +3,24 @@ import Nav from "./Nav.js";
 import Car1 from "../Pictures/image14.png";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { fetchAnnonce } from "../redux/apiCalls/annonceApiCall.js";
+import {
+  fetchAnnonce,
+  toggleLikeAnnonce,
+} from "../redux/apiCalls/annonceApiCall.js";
+import { MdDelete } from "react-icons/md";
+import { FaRegEdit } from "react-icons/fa";
+import { FaHeart } from "react-icons/fa";
 
 function Details() {
+  const deleteAnnoneHandler=()=>{}
   const {id}=useParams()
-  console.log(id)
+  const {user}=useSelector(state=>state.auth)
+
     const dispatch = useDispatch();
     const { annonce } = useSelector((state) => state.annonce);
-    console.log(annonce)
+    console.log(annonce);
 useEffect(()=>{
   dispatch(fetchAnnonce(id));
-
 },[id])
   return (
     <div className="flex flex-col h-screen font-serif">
@@ -38,9 +45,32 @@ useEffect(()=>{
             className=" md:w-[700px] md:h-[700px] sm:w-[600px] sm:h-[400px] ss1"
             alt="Car Image"
           />
+          <div className="flex items-center">
+            <FaHeart className={
+              annonce?.likes.includes(user?._id) ?'text-red-500' : 'text-gray-300'}
+            
+            
+            onClick={() => dispatch(toggleLikeAnnonce(annonce?._id))} />
+            {annonce?.likes.length} Likes
+          </div>
         </div>
         {/*second one*/}
         <div className="flex flex-col md:w-1/2 ">
+          {user?._id === annonce?.user?._id && (
+            <>
+              <MdDelete
+                className="text-red-600 absolute right-10"
+                size={25}
+                onClick={() => {
+                  deleteAnnoneHandler;
+                }}
+              />
+              <FaRegEdit
+                className="text-green-600 absolute right-20"
+                size={25}
+              />
+            </>
+          )}
           {/*text*/}
           <div className="ml-10 sm:mt-8 ss2">
             <h1 className="text-3xl text-opacity-100">{annonce?.title}</h1>

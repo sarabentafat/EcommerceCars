@@ -10,6 +10,7 @@ const annonceSlice = createSlice({
     loading: false,
     isAnnonceCreated: false,
     annonce: null,
+    likes:null
   },
   reducers: {
     setAnnonces(state, action) {
@@ -37,8 +38,11 @@ const annonceSlice = createSlice({
     clearIsAnnonceCreated(state) {
       state.isAnnonceCreated = false;
     },
-    setAnnonce(state,action) {
+    setAnnonce(state, action) {
       state.annonce = action.payload;
+    },
+    setLike(state, action) {
+      state.annonce.likes = action.payload.likes;
     },
   },
 });
