@@ -9,6 +9,7 @@ const annonceSlice = createSlice({
     categories: [],
     loading: false,
     isAnnonceCreated: false,
+    annonce: null,
   },
   reducers: {
     setAnnonces(state, action) {
@@ -35,6 +36,9 @@ const annonceSlice = createSlice({
     },
     clearIsAnnonceCreated(state) {
       state.isAnnonceCreated = false;
+    },
+    setAnnonce(state,action) {
+      state.annonce = action.payload;
     },
   },
 });

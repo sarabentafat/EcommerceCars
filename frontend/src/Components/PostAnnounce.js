@@ -130,14 +130,9 @@ console.log(annonce)
               id="standard-basic"
               label="Kilométrage"
               variant="standard"
-              select
-            >
-              {transmissionData.t.map((transmission)=>(
-                <MenuItem key={transmission} value={transmission}>
-                  {transmission}</MenuItem>
-              ))
-              }
-            </TextField>
+           
+            />
+              
           </div>
           <div className="ml-12 mb-3 w-full">
             <TextField

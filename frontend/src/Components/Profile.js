@@ -41,12 +41,12 @@ const Profile = () => {
 
   return (
     <div className="flex justify-center items-center h-screen">
-    
       <div>
         <h1 className="text-4xl font-bold mb-4">Profile</h1>
         <h2 className="font-bold uppercase">{profile?.username}</h2>
         <p>{profile?.email}</p>
         <p>{profile?.bio}</p>
+        <p>{profile?.phonenumber}</p>
         <img
           className="rounded-full w-48 h-48"
           src={profile?.profilePic.url}
@@ -63,12 +63,14 @@ const Profile = () => {
           <button className="bg-red-500 p-2" type="submit">
             Upload
           </button>
-
         </form>
-        <button onClick={()=>setUpdatProfile(true)}> update profil</button>
-                  {updateProfile && (
-            <UpdateProfileModal profile={profile} setUpdatProfile={setUpdatProfile}/>
-          )}
+        <button onClick={() => setUpdatProfile(true)}> update profil</button>
+        {updateProfile && (
+          <UpdateProfileModal
+            profile={profile}
+            setUpdatProfile={setUpdatProfile}
+          />
+        )}
       </div>
     </div>
   );

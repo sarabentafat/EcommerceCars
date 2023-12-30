@@ -218,7 +218,6 @@ const categoryElements = categories.map((category) => (
             {/* Three Rows of Images */}
             <div className="flex mt-4">
               <div className="grid grid-cols-3 gap-8 ml-6">
-                
                 {actualAnnonces.map((annonce) => (
                   <div key={annonce._id} className="flex-1 ml-5">
                     <div className="relative ">
@@ -236,7 +235,7 @@ const categoryElements = categories.map((category) => (
                       {annonce.price}
                     </p>
                     <button className="bg-black text-white w-full py-1 px-6">
-                      See Details
+                      <Link to={`/annonces/${annonce._id}`}>see details</Link>
                     </button>
                   </div>
                 ))}

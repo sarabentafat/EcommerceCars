@@ -107,3 +107,28 @@ export function createAnnonce(newAnnonce) {
     }
   };
 }
+// fetch single annonce
+export function fetchAnnonce(annonceId) {
+  return async (dispatch) => {
+    try {
+      const { data } = await request.get(
+        `/api/annonces/${annonceId}`
+      );
+      dispatch(annonceActions.setAnnonce(data));
+
+    } catch (error) {
+      if (error.response) {
+        // The server responded with an error status
+        toast.error(error.response.data.message);
+      } else if (error.request) {
+        // The request was made but no response was received
+        toast.error("No response received from the server.");
+      } else {
+        // Something happened in setting up the request that triggered an error
+        toast.error("An unexpected error occurred.");
+      }
+
+      console.error("Error in fetchAnnonces:", error);
+    }
+  };
+}

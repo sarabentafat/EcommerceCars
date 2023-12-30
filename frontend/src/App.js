@@ -38,7 +38,7 @@ function App() {
         />
         <Route path="/post" element={<PostAnnounce />} />
         <Route path="/generate" element={<GeneratePrice />} />
-        <Route path="/details" element={<Details />} />
+        <Route path="/annonces/:id" element={<Details />} />
         <Route
           path="/signup"
           element={!user ? <SignUP /> : <Navigate to="/" />}
