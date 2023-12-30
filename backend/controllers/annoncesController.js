@@ -39,6 +39,9 @@ module.exports.createAnnonceCtrl = asyncHandler(async (req, res) => {
     category: req.body.category,
     location: req.body.location,
     marque: req.body.marque,
+    energie: req.body.energie,
+    kilometrage: req.body.kilometrage,
+    couleur: req.body.couleur,
     image: {
       url: result.secure_url,
       publicId: result.public_id,

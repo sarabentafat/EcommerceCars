@@ -14,7 +14,7 @@ module.exports.registerUserCtrl = asyncHandler(async (req, res) => {
 console.log(req.body)
   // Error 400: Problem from the client if they didn't provide valid input
   if (error) {
-    console.log("wch izan")
+   
     return res.status(400).json({ message: error.details[0].message });
   }
 
@@ -34,7 +34,7 @@ console.log(req.body)
     username: req.body.username,
     email: req.body.email,
     password: hashedPassword,
-    phonenumber:req.phonenumber,
+    phonenumber:req.body.phonenumber,
     address:req.address
   });
 
