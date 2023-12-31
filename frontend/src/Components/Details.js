@@ -1,27 +1,63 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Nav from "./Nav.js";
 import Car1 from "../Pictures/image14.png";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { toast } from "react-toastify";
+import swal from "sweetalert2";
 import {
+  deleteAnnonce,
   fetchAnnonce,
   toggleLikeAnnonce,
+  updateAnnonceImage,
 } from "../redux/apiCalls/annonceApiCall.js";
 import { MdDelete } from "react-icons/md";
 import { FaRegEdit } from "react-icons/fa";
 import { FaHeart } from "react-icons/fa";
+import UpdateAnnonceModal from "./UpdateAnnonceModal.js";
 
 function Details() {
-  const deleteAnnoneHandler=()=>{}
-  const {id}=useParams()
-  const {user}=useSelector(state=>state.auth)
+  const navigate = useNavigate();
+  const [selectedFile, setSelectedFile] = useState(null);
+  const { id } = useParams();
+  const { user } = useSelector((state) => state.auth);
+  const [updateAnnonce, setUpdateAnnonce] = useState(false);
+  const dispatch = useDispatch();
+  const { annonce } = useSelector((state) => state.annonce);
 
-    const dispatch = useDispatch();
-    const { annonce } = useSelector((state) => state.annonce);
-    console.log(annonce);
-useEffect(()=>{
-  dispatch(fetchAnnonce(id));
-},[id])
+  useEffect(() => {
+    dispatch(fetchAnnonce(id));
+  }, [id]);
+
+  const handleFileChange = (event) => {
+    setSelectedFile(event.target.files[0]);
+  };
+
+  const handleUpload = (e) => {
+    e.preventDefault();
+    if (!selectedFile) return toast.warning("there is no file");
+    const formData = new FormData();
+    formData.append("image", selectedFile);
+    dispatch(updateAnnonceImage(formData, annonce?._id));
+  };
+
+  const deleteAnnonceHandler = () => {
+    new swal({
+      title: "Are you sure",
+      text: "Once deleted, you will not be able to recover this annonce",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true,
+    }).then((willDelete) => {
+      if (willDelete) {
+        dispatch(deleteAnnonce(annonce?._id));
+        navigate(`/profile/${user?._id}`);
+      } else {
+        swal("something went wrong");
+      }
+    });
+  };
+
   return (
     <div className="flex flex-col h-screen font-serif">
       <div
@@ -45,12 +81,36 @@ useEffect(()=>{
             className=" md:w-[700px] md:h-[700px] sm:w-[600px] sm:h-[400px] ss1"
             alt="Car Image"
           />
+          <div className="max-w-md mx-auto my-8 p-6 bg-white rounded-md shadow-md">
+            <label
+              htmlFor="imageUpload"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Choose an image to upload:
+            </label>
+            <input
+              type="file"
+              id="imageUpload"
+              accept="image/*"
+              onChange={handleFileChange}
+              className="mt-1 p-2 border rounded-md w-full"
+            />
+            <button
+              onClick={handleUpload}
+              className="mt-4 bg-blue-500 text-white p-2 rounded-md hover:bg-blue-700"
+            >
+              Upload
+            </button>
+          </div>
           <div className="flex items-center">
-            <FaHeart className={
-              annonce?.likes.includes(user?._id) ?'text-red-500' : 'text-gray-300'}
-            
-            
-            onClick={() => dispatch(toggleLikeAnnonce(annonce?._id))} />
+            <FaHeart
+              className={
+                annonce?.likes.includes(user?._id)
+                  ? "text-red-500"
+                  : "text-gray-300"
+              }
+              onClick={() => dispatch(toggleLikeAnnonce(annonce?._id))}
+            />
             {annonce?.likes.length} Likes
           </div>
         </div>
@@ -59,19 +119,30 @@ useEffect(()=>{
           {user?._id === annonce?.user?._id && (
             <>
               <MdDelete
-                className="text-red-600 absolute right-10"
+                className="text-red-600 absolute right-10 cursor-pointer"
                 size={25}
                 onClick={() => {
-                  deleteAnnoneHandler;
+                  deleteAnnonceHandler();
                 }}
               />
               <FaRegEdit
                 className="text-green-600 absolute right-20"
                 size={25}
+                onClick={() => setUpdateAnnonce(true)}
               />
+              {updateAnnonce && (
+                <>
+                  <UpdateAnnonceModal
+                    annonce={annonce}
+                    setUpdateAnnonce={setUpdateAnnonce}
+                  />
+                </>
+              )}
             </>
           )}
+
           {/*text*/}
+
           <div className="ml-10 sm:mt-8 ss2">
             <h1 className="text-3xl text-opacity-100">{annonce?.title}</h1>
             <div className=" p-0 mt-10 md:mr-52 sm:mr-52 ">
@@ -123,4 +194,5 @@ useEffect(()=>{
     </div>
   );
 }
+
 export default Details;

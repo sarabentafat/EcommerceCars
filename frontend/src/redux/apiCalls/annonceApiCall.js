@@ -162,3 +162,80 @@ headers:{
     }
   };
 }
+// update annonce image
+export function updateAnnonceImage(newImage,annonceId) {
+  return async (dispatch,getState) => {
+    try {
+      const { data } = await request.put(
+        `/api/annonces/update-image/${annonceId}`,
+        newImage,
+        {
+          headers: {
+            Authorization: "Bearer " + getState().auth.user.token,
+            "Content-Type":"multipart/form-data"
+          },
+        }
+      );
+      toast.success("new annonce image uploaded succefully")
+      dispatch(annonceActions.setUpdateImage(data));
+      console.log("delted hhh")
+
+    } catch (error) {
+      if (error.response) {
+        // The server responded with an error status
+        toast.error(error.response.data.message);
+      } else if (error.request) {
+        // The request was made but no response was received
+        toast.error("No response received from the server.");
+      } else {
+        // Something happened in setting up the request that triggered an error
+        toast.error("An unexpected error occurred.");
+      }
+
+      console.error("Error in fetchAnnonces:", error);
+    }
+  };
+}
+// update annonce
+export function updateAnnonce(newAnnonce,annonceId) {
+  return async (dispatch,getState) => {
+
+    console.log(annonceId)
+    console.log(newAnnonce)
+    console.log("Token:", getState().auth.user.token);
+    try {
+      const { data } = await request.put(
+        `/api/annonces/${annonceId}`,
+        newAnnonce,
+        {
+          headers: {
+            Authorization: "Bearer " + getState().auth.user.token,
+          },
+        }
+      );
+      toast.success("annonce updated succefully")
+      dispatch(annonceActions.setAnnonce(data));
+
+    } catch (error) {
+   toast.error(error.response.data.message);
+    }
+  };
+}
+// DELETE annonce
+export function deleteAnnonce(annonceId) {
+  return async (dispatch,getState) => {
+    try {
+      const { data } = await request.delete(`/api/annonces/${annonceId}`, {
+        headers: {
+          Authorization: "Bearer " + getState().auth.user.token
+        },
+      });
+    
+      dispatch(annonceActions.deleteAnnonce(data._id));
+        toast.success(data.message);
+
+    } catch (error) {
+   toast.error(error.response.data.message);
+    }
+  };
+}

@@ -10,7 +10,7 @@ const annonceSlice = createSlice({
     loading: false,
     isAnnonceCreated: false,
     annonce: null,
-    likes:null
+    likes: null,
   },
   reducers: {
     setAnnonces(state, action) {
@@ -44,6 +44,12 @@ const annonceSlice = createSlice({
     setLike(state, action) {
       state.annonce.likes = action.payload.likes;
     },
+    setUpdateImage(state, action) {
+      state.annonce.profilePic = action.payload.profilePic;
+    },
+    deleteAnnonce(state,action){
+      state.annonces=state.annonces.filter(an=>an._id !==action.payload)
+    }
   },
 });
 

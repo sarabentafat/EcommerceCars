@@ -40,7 +40,7 @@ const Profile = () => {
   };
 
   return (
-    <div className="flex justify-center items-center h-screen">
+    <div className="">
       <div>
         <h1 className="text-4xl font-bold mb-4">Profile</h1>
         <h2 className="font-bold uppercase">{profile?.username}</h2>
@@ -71,6 +71,22 @@ const Profile = () => {
             setUpdatProfile={setUpdatProfile}
           />
         )}
+      </div>
+      <div>
+        <h1 className="text-4xl">Profile annonces</h1>
+        {profile?.annonces.map((annonce) => (
+          <div key={annonce._id} className="annonce-card">
+            <h2>{annonce?.title}</h2>
+            <p>{annonce?.description}</p>
+        
+              <img
+              className="w-40 "
+                src={annonce?.image.url}
+                alt={`Image for ${annonce.title}`}
+              />
+         
+          </div>
+        ))}
       </div>
     </div>
   );
