@@ -2,6 +2,9 @@
   "scripts": {
     "dev": "nodemon app.js"
   },
+  "engines": {
+    "node":"18.x"
+  },
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "cloudinary": "^1.41.0",
