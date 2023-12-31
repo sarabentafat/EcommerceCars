@@ -148,38 +148,42 @@ module.exports.deleteAnnonceCtrl = asyncHandler(async (req, res) => {
  * @access  private (only the owner of the annonce  )
  * ----------------------------------------------*/
 module.exports.updateAnnonceCtrl = asyncHandler(async (req, res) => {
+  const { error } = validateUpdateAnnonce(req.body);
+  if (error) {
+    return res.status(400).send(error.details[0].message);
+  }
 
-  const {error}=validateUpdateAnnonce(req.body)
-if(error){
-  return res.status(400).send(error.details[0].message)
-}
-const annonce=await Annonce.findById(req.params.id)
-if (!annonce){
-  return res.status(404).json({message :"annonce not found "})
-}
+  const annonce = await Annonce.findById(req.params.id);
+  if (!annonce) {
+    return res.status(404).json({ message: "annonce not found" });
+  }
 
-if(req.user._id !== annonce.user.toString()){
-  return res.status(401).json({message :"you are not authorized to update this post"})
-}
-console.log(req.body.title)
-console.log(req.body)
-const updatedAnnonce = await Annonce.findByIdAndUpdate(
-  req.params.id,
-  {
-    $set: {
-      title: req.body.title,
-      description: req.body.description,
-      price: req.body.price,
-      couleur: req.body.couleur,
-      energie: req.body.energie,
+  if (req.user._id !== annonce.user.toString()) {
+    return res
+      .status(401)
+      .json({ message: "you are not authorized to update this post" });
+  }
+
+  const updatedAnnonce = await Annonce.findByIdAndUpdate(
+    req.params.id,
+    {
+      $set: {
+        title: req.body.title,
+        description: req.body.description,
+        price: req.body.price,
+        couleur: req.body.couleur,
+        energie: req.body.energie,
+        marque: req.body.marque, // Fixed typo here
+        kilometrage: req.body.kilometrage,
+      },
     },
-  },
-  { new: true } // Added missing comma
-).populate("user", ["-password"]);
-  res.status(200).json(updatedAnnonce);
-  console.log("upadated succefulyy");
+    { new: true }
+  ).populate("user", ["-password"]);
 
+  res.status(200).json(updatedAnnonce);
+  console.log("updated successfully");
 });
+
 
 /**----------------------------------------------
  * @desc    Update annonce image  
