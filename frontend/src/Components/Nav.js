@@ -14,7 +14,7 @@ export const Nav=() =>{
   };
   const [isOpen, setIsOpen] = useState(false);
 
-  
+
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
   };
@@ -74,6 +74,7 @@ export const Nav=() =>{
 
             <div className="relative inline-block text-left">
               <button onClick={toggleDropdown} type="button">
+                
                 <img
                   src={user?.profilePic.url}
                   alt="user photo"

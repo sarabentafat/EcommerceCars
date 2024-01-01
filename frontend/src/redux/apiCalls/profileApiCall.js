@@ -75,8 +75,6 @@ export function updateProfile(userId, profile) {
 
   return async (dispatch, getState) => {
     try {
-      console.log(profile)
-      console.log("problem here")
       const { data } = await request.put(
         `/api/users/profile/${userId}`,
         profile,
@@ -86,8 +84,6 @@ export function updateProfile(userId, profile) {
           },
         }
       );
-      console.log(data)
-
       dispatch(profileActions.updateProfile(data));
       dispatch(authActions.setUsername(data.username));
 
@@ -95,8 +91,6 @@ export function updateProfile(userId, profile) {
       const user = JSON.parse(localStorage.getItem("userInfo"));
       user.username = data?.username;
       localStorage.setItem("userInfo", JSON.stringify(user));
-
-      // Corrected the method to toast.success()
       toast.success(data.message);
     } catch (error) {
       // Handle different error scenarios

@@ -1,12 +1,6 @@
 import React, { useState } from "react";
-// import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
 import { updateProfile } from "../redux/apiCalls/profileApiCall";
-
-// const user = {
-//   username: "sara",
-//   bio: "hhh",
-// };
 
 const UpdateProfileModal = ({ setUpdatProfile, profile }) => {
   const dispatch = useDispatch();
@@ -23,61 +17,58 @@ const UpdateProfileModal = ({ setUpdatProfile, profile }) => {
     if (password.trim() !== "") {
       updatedUser.password = password;
     }
-    console.log(updatedUser)
-    console.log(profile?._id)
-    console.log(profile)
     dispatch(updateProfile(profile?._id, updatedUser));
     setUpdatProfile(false);
   };
 
   return (
-    <div className="bg-red-200 z-40 absolute top-[30%] w-[70%] left-[50%]">
-      updateProfileModal
+    <div className="fixed top-1/3 left-1/2 transform -translate-x-1/2 bg-white p-8 rounded-md shadow-lg">
       <form onSubmit={formSubmitHandler}>
-        <abbr>
-          <i
+        <div className="flex justify-end">
+          <abbr
             onClick={(e) => {
               e.preventDefault();
               setUpdatProfile();
             }}
-            className="cursor-pointer"
+            className="cursor-pointer text-gray-500 hover:text-gray-700"
           >
             close
-          </i>
-        </abbr>
-        <h1>update profile</h1>
-        <div className="flex flex-col gap-2">
+          </abbr>
+        </div>
+        <h1 className="text-2xl font-semibold mb-4">Update Profile</h1>
+        <div className="flex flex-col gap-4">
           <div>
-            {" "}
             <input
               type="text"
-              className=""
               value={username}
-              placeholder="username"
+              placeholder="Username"
               onChange={(e) => setUsername(e.target.value)}
+              className="border p-2 rounded-md w-full"
             />
           </div>
           <div>
-            <input
-              type="text"
-              className=""
+            <textarea
               value={bio}
-              placeholder="bio"
+              placeholder="Bio"
               onChange={(e) => setBio(e.target.value)}
+              className="border p-2 rounded-md w-full"
             />
           </div>
           <div>
             <input
               type="password"
-              className=""
               value={password}
-              placeholder="password"
+              placeholder="Password"
               onChange={(e) => setPassword(e.target.value)}
+              className="border p-2 rounded-md w-full"
             />
           </div>
         </div>
-        <button type="submit" className="bg-green-500 p-2 text-white rounded">
-          update profile
+        <button
+          type="submit"
+          className="bg-green-500 text-white p-2 rounded-md hover:bg-green-700 w-full"
+        >
+          Update Profile
         </button>
       </form>
     </div>

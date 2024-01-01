@@ -14,37 +14,32 @@ import { toast } from "react-toastify";
 import UpdateProfileModal from "./UpdateProfileModal";
 
 const Profile = () => {
-
+const [picUploaded,setPicUploaded]=useState(false)
   const { id } = useParams();
   const [file, setFile] = useState(null);
   const [updateProfile,setUpdatProfile]=useState(false)
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(getUserProfile(id));
-  }, [dispatch, id]);
 const navigate=useNavigate("/")
   const { profile,loading,isProfileDeleted } = useSelector((state) => state.profile);
     const { user} = useSelector((state) => state.auth);
-
+// change profile photo 
   const formSubmitHandler = async (e) => {
     e.preventDefault();
     if (!file) {
       return toast.warning("Please select a file.");
     }
-
     const formData = new FormData();
     formData.append("image", file);
 
     try {
        dispatch(uploadProfilePhoto(formData));
       toast.success("Profile photo uploaded successfully.");
+      setPicUploaded(true)
     } catch (error) {
       console.error("Error uploading profile photo:", error);
       toast.error("Failed to upload profile photo. Please try again.");
     }
   };
-console.log(user?._id)
   //DELETE ACOUNT HANDLER 
   const deleteAccountHandler=()=>{
     swal({
@@ -60,6 +55,10 @@ console.log(user?._id)
       }
     })
   }
+    useEffect(() => {
+      dispatch(getUserProfile(id));
+    }, [dispatch, id, picUploaded]);
+  
   useEffect(()=>{
     if(isProfileDeleted){
       navigate("/")
@@ -91,7 +90,7 @@ console.log(user?._id)
         <h2 className="font-bold uppercase">{profile?.username}</h2>
         <p>{profile?.email}</p>
         <p>{profile?.bio}</p>
-        <p>{profile?.phonenumber}</p>
+        <p>phone number :{profile?.phonenumber}</p>
         <img
           className="rounded-full w-48 h-48"
           src={profile?.profilePic.url}
@@ -126,24 +125,27 @@ console.log(user?._id)
       </div>
       <div>
         <button
-          onClick={()=>{deleteAccountHandler()}}
+          onClick={() => {
+            deleteAccountHandler();
+          }}
           className="text-red-500 flex items-center gap-1"
         >
           <FaDeleteLeft /> Delete profile
         </button>
         <h1 className="text-4xl">Profile annonces</h1>
-        {profile?.annonces.map((annonce) => (
-          <div key={annonce._id} className="annonce-card">
-            <h2>{annonce?.title}</h2>
-            <p>{annonce?.description}</p>
+        {profile?.annonces &&
+          profile.annonces.map((annonce) => (
+            <div key={annonce._id} className="annonce-card">
+              <h2>{annonce?.title}</h2>
+              <p>{annonce?.description}</p>
 
-            <img
-              className="w-40 "
-              src={annonce?.image.url}
-              alt={`Image for ${annonce.title}`}
-            />
-          </div>
-        ))}
+              <img
+                className="w-40"
+                src={annonce?.image.url}
+                alt={`Image for ${annonce.title}`}
+              />
+            </div>
+          ))}
       </div>
     </div>
   );
