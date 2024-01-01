@@ -1,6 +1,5 @@
 import signup from "../images/signup.png";
 import { useState } from "react";
-import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Nav from "./Nav.js";
 import Car1 from "../Pictures/image14.png";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import swal from "sweetalert2";
 import {
@@ -25,9 +25,6 @@ function Details() {
   const dispatch = useDispatch();
   const { annonce } = useSelector((state) => state.annonce);
 
-  useEffect(() => {
-    dispatch(fetchAnnonce(id));
-  }, [id]);
 
   const handleFileChange = (event) => {
     setSelectedFile(event.target.files[0]);
@@ -57,6 +54,9 @@ function Details() {
       }
     });
   };
+  useEffect(() => {
+    dispatch(fetchAnnonce(id));
+  }, [id, handleUpload]);
 
   return (
     <div className="flex flex-col h-screen font-serif">
@@ -66,54 +66,63 @@ function Details() {
       >
         {/*the user who poses the annonce*/}
         <div className="flex">
-          <img
-            src={annonce?.user.profilePic.url}
-            className="rounded-full w-20 h-20 border-1 border-black "
-            alt="Car Image"
-          />
+          <Link to={`/profile/${annonce?.user.id}`}>
+            {" "}
+            <img
+              src={annonce?.user.profilePic.url}
+              className="rounded-full w-20 h-20 border-1 border-black "
+              alt="Car Image"
+            />
+          </Link>
           <p>{annonce?.user.username}</p>
           <p>{annonce?.user.phonenumber}</p>
         </div>
         {/*first column*/}
-        <div className="md:w-1/2">
-          <img
-            src={annonce?.image.url}
-            className=" md:w-[700px] md:h-[700px] sm:w-[600px] sm:h-[400px] ss1"
-            alt="Car Image"
-          />
-          <div className="max-w-md mx-auto my-8 p-6 bg-white rounded-md shadow-md">
-            <label
-              htmlFor="imageUpload"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Choose an image to upload:
-            </label>
-            <input
-              type="file"
-              id="imageUpload"
-              accept="image/*"
-              onChange={handleFileChange}
-              className="mt-1 p-2 border rounded-md w-full"
-            />
-            <button
-              onClick={handleUpload}
-              className="mt-4 bg-blue-500 text-white p-2 rounded-md hover:bg-blue-700"
-            >
-              Upload
-            </button>
-          </div>
-          <div className="flex items-center">
-            <FaHeart
-              className={
-                annonce?.likes.includes(user?._id)
-                  ? "text-red-500"
-                  : "text-gray-300"
-              }
-              onClick={() => dispatch(toggleLikeAnnonce(annonce?._id))}
-            />
-            {annonce?.likes.length} Likes
-          </div>
-        </div>
+        {user?._id === annonce?.user?._id && (
+          <>
+            {" "}
+            <div className="md:w-1/2">
+              <img
+                src={annonce?.image.url}
+                className=" md:w-[700px] md:h-[700px] sm:w-[600px] sm:h-[400px] ss1"
+                alt="Car Image"
+              />
+              <div className="max-w-md mx-auto my-8 p-6 bg-white rounded-md shadow-md">
+                <label
+                  htmlFor="imageUpload"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Choose an image to upload:
+                </label>
+                <input
+                  type="file"
+                  id="imageUpload"
+                  accept="image/*"
+                  onChange={handleFileChange}
+                  className="mt-1 p-2 border rounded-md w-full"
+                />
+                <button
+                  onClick={handleUpload}
+                  className="mt-4 bg-blue-500 text-white p-2 rounded-md hover:bg-blue-700"
+                >
+                  Upload
+                </button>
+              </div>
+              <div className="flex items-center">
+                <FaHeart
+                  className={
+                    annonce?.likes.includes(user?._id)
+                      ? "text-red-500"
+                      : "text-gray-300"
+                  }
+                  onClick={() => dispatch(toggleLikeAnnonce(annonce?._id))}
+                />
+                {annonce?.likes.length} Likes
+              </div>
+            </div>
+          </>
+        )}
+
         {/*second one*/}
         <div className="flex flex-col md:w-1/2 ">
           {user?._id === annonce?.user?._id && (
@@ -185,9 +194,7 @@ function Details() {
               Le Prix généré :{" "}
               <span className="text-[#BA790B]"> {annonce?.price}</span>
             </p>
-            <button className="bg-[#171717E5] text-white py-3 md:px-[50px] sm:px-[50px] ss7 md:ml-12 sm:ml-12  text-lg  ">
-              Envoyer Message
-            </button>
+            {/* we gotta add a comment section here */}
           </div>
         </div>
       </div>

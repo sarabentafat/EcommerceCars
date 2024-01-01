@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import { IoMdCloseCircle } from "react-icons/io";
-import { useDispatch } from "react-redux";import { toast } from "react-toastify";
+import { useDispatch, useSelector } from "react-redux";
+import { toast } from "react-toastify";
 import { updateAnnonce } from "../redux/apiCalls/annonceApiCall";
-; // Replace 'your-redux-actions' with the correct path to your Redux actions
 
 const UpdateAnnonceModal = ({ setUpdateAnnonce, annonce }) => {
   const dispatch = useDispatch();
 
-
+  const { categories } = useSelector((state) => state.annonce);
   const [title, setTitle] = useState(annonce?.title || "");
   const [category, setCategory] = useState(annonce?.category || "");
   const [marque, setMarque] = useState(annonce?.marque || "");
@@ -19,8 +19,23 @@ const UpdateAnnonceModal = ({ setUpdateAnnonce, annonce }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if(title.trim()==="") return toast.error("annonce title is required")
-    dispatch(updateAnnonce({title,category,description}, annonce?._id));
+    if (title.trim() === "") return toast.error("Annonce title is required");
+
+    dispatch(
+      updateAnnonce(
+        {
+          title,
+          category,
+          marque,
+          description,
+          kilometrage,
+          energie,
+          couleur,
+          price,
+        },
+        annonce?._id
+      )
+    );
     setUpdateAnnonce(false);
   };
 
@@ -63,16 +78,20 @@ const UpdateAnnonceModal = ({ setUpdateAnnonce, annonce }) => {
               htmlFor="category"
               className="block text-sm font-medium text-gray-700"
             >
-              Category:
+              Category:{" "}
             </label>
-            <input
-              type="text"
-              id="category"
+            <select
               name="category"
               value={category}
               onChange={(e) => setCategory(e.target.value)}
-              className="mt-1 p-2 border rounded-md w-full"
-            />
+              className="w-full p-2 border rounded-md"
+            >
+              {categories?.map((category) => (
+                <option key={category._id} value={category.title}>
+                  {category.title}
+                </option>
+              ))}
+            </select>
           </div>
 
           <div className="mb-4">

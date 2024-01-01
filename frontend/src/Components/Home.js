@@ -31,8 +31,8 @@ function Home() {
       dispatch(fetchAnnoncesBasesOnCategory(currentCategory));
       setActualAnnonces(annoncesCate);
     }
-    window.scrollTo(0, 0);
-  }, [currentPage, currentCategory, dispatch, annonces, annoncesCate]);
+   
+  }, [currentPage, currentCategory, annonces, annoncesCate]);
 
   useEffect(() => {
     dispatch(getAnnoncesCount());
@@ -59,7 +59,7 @@ function Home() {
     setCurrentCategory(categoryTitle);
     dispatch(fetchAnnoncesBasesOnCategory(categoryTitle));
   };
-
+console.log(categories)
   return (
     <div className="font-serif  text-gray-900">
       <div className="bg-gray-200 bg-opacity-75 p-8 rounded-md">
@@ -199,12 +199,6 @@ function Home() {
 
           {/* Second Column */}
           <div className="w-3/4 pl-4 mr-20">
-            <div className="bg-red-500">
-              {/* hh{" "}
-              {annoncesCate?.map((category) => (
-                <div key={category.id}>{category.title}</div>
-              ))} */}
-            </div>
 
             <div className="flex bg-gray-200 p-4 rounded-md text-xl ">
               {categoryElements}

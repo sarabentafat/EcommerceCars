@@ -13,7 +13,7 @@ import transmissionData from "./Json/transmission.json"
 function PostAnnounce() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { loading, isAnnonceCreated } = useSelector((state) => state.annonce);
+  const { loading, isAnnonceCreated,categories } = useSelector((state) => state.annonce);
 
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -69,17 +69,14 @@ const annonce = {
   wilaya: wilaya,
   couleur: couleur,
 };
- const wilayas = Wilayas.w;
-
-console.log(annonce)
     dispatch(createAnnonce(formData));
   };
-
   useEffect(() => {
     if (isAnnonceCreated) {
       navigate("/");
     }
   }, [isAnnonceCreated, navigate]);
+  console.log(categories)
 
   return (
     <div className="flex flex-col h-screen">
@@ -130,9 +127,7 @@ console.log(annonce)
               id="standard-basic"
               label="Kilométrage"
               variant="standard"
-           
             />
-              
           </div>
           <div className="ml-12 mb-3 w-full">
             <TextField
@@ -199,7 +194,14 @@ console.log(annonce)
               id="standard-basic"
               label="category"
               variant="standard"
-            />
+              select
+            >
+              {categories.map((category) => (
+                <MenuItem key={category} value={category.title}>
+                  {category.title}
+                </MenuItem>
+              ))}
+            </TextField>
           </div>
           <div className="bg-[#BA790B] text-white py-1 px-7 mt-10 text-lg">
             <input
