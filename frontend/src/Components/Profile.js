@@ -4,6 +4,9 @@ import {Oval} from "react-loader-spinner"
 import swal from "sweetalert"
 import { FaDeleteLeft } from "react-icons/fa6"
 import { logoutUser} from "../redux/apiCalls/authApiCall"
+import { FaEdit } from "react-icons/fa";
+import { CiEdit } from "react-icons/ci";
+import { IoCloseCircle } from "react-icons/io5";
 import {
   deleteProfile,
   getUserProfile,
@@ -40,6 +43,10 @@ const navigate=useNavigate("/")
       toast.error("Failed to upload profile photo. Please try again.");
     }
   };
+const toggleImage=()=>{
+
+}
+  
   //DELETE ACOUNT HANDLER 
   const deleteAccountHandler=()=>{
     swal({
@@ -84,23 +91,22 @@ const navigate=useNavigate("/")
   }
 
   return (
-    <div className="">
+    <div className="mx-4">
       <div>
-        <h1 className="text-4xl font-bold mb-4">Profile</h1>
-        <h2 className="font-bold uppercase">{profile?.username}</h2>
-        <p>{profile?.email}</p>
-        <p>{profile?.bio}</p>
-        <p>phone number :{profile?.phonenumber}</p>
-        <img
-          className="rounded-full w-48 h-48"
-          src={profile?.profilePic.url}
-          alt="profile"
-        />
+        <div className="justify-center flex items-center">
+          <img
+            className="rounded-full w-40 h-40 mt-10 "
+            src={profile?.profilePic.url}
+            alt="profile"
+          />
+        </div>
         {profile?._id === user?._id && (
           <>
             <form onSubmit={formSubmitHandler}>
-              <label htmlFor="file">Choose a profile picture:</label>
-              <input
+              <label className="flex justify-center item-center" htmlFor="file">
+                <CiEdit size={27} onClick={toggleImage}/>
+              </label>
+              <input          
                 type="file"
                 name="file"
                 id="file"
@@ -110,9 +116,12 @@ const navigate=useNavigate("/")
                 Upload
               </button>
             </form>
-            <button onClick={() => setUpdatProfile(true)}>
+            <button
+              className="text-green-500 text-white"
+              onClick={() => setUpdatProfile(true)}
+            >
               {" "}
-              update profil
+              <FaEdit size={36} />
             </button>
             {updateProfile && (
               <UpdateProfileModal
@@ -122,6 +131,17 @@ const navigate=useNavigate("/")
             )}
           </>
         )}
+        <h1 className="text-xl font-bold my-1 ">Profile Informations : </h1>
+        <div className="flex">
+          <h2 className="font-bold ">username : </h2>
+          <h2> {profile?.username}</h2>
+        </div>
+        <div className="flex">
+          <h2 className="font-bold ">gmail : </h2>
+          <p>{profile?.email}</p>
+        </div>
+        <p>{profile?.bio}</p>
+        <p>phone number :{profile?.phonenumber}</p>
       </div>
       <div>
         <button
@@ -132,15 +152,14 @@ const navigate=useNavigate("/")
         >
           <FaDeleteLeft /> Delete profile
         </button>
-        <h1 className="text-4xl">Profile annonces</h1>
+        <h1 className="text-2xl font-bold mt-4">Profile annonces :</h1>
         {profile?.annonces &&
           profile.annonces.map((annonce) => (
-            <div key={annonce._id} className="annonce-card">
-              <h2>{annonce?.title}</h2>
+            <div key={annonce._id} className="bg-gray-100 p-5 mt-5">
+              <h2 className="text-lg font-semibold">{annonce?.title}</h2>
               <p>{annonce?.description}</p>
-
               <img
-                className="w-40"
+                className="w-"
                 src={annonce?.image.url}
                 alt={`Image for ${annonce.title}`}
               />

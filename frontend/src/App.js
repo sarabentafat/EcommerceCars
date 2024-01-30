@@ -26,13 +26,12 @@ function App() {
           exact
           element={
             !user ? (
-             <>
+              <>
                 <FirstsectionHome />
                 <Home />
               </>
             ) : (
-              <Home/>
-              
+              <Home />
             )
           }
         />

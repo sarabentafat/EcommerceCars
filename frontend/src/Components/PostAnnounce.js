@@ -79,10 +79,11 @@ const annonce = {
   console.log(categories)
 
   return (
-    <div className="flex flex-col h-screen">
-      <div className="flex flex-1 mt-32 text-2xl font-serif">
-        <div className="flex flex-col w-1/2 ml-64">
-          <div className="ml-12 mb-3">
+    <div className="mx-10">
+      <h1 className="text-yellow-600 font-bold text-lg">Create an annonce</h1>
+      <div className="">
+        <div className="">
+          <div className="">
             <TextField
               name="title"
               value={title}
@@ -92,7 +93,7 @@ const annonce = {
               variant="standard"
             />
           </div>
-          <div className="ml-12 mb-3">
+          <div className="">
             <TextField
               name="description"
               value={description}
@@ -102,7 +103,7 @@ const annonce = {
               variant="standard"
             />
           </div>
-          <div className="ml-12 mb-3">
+          <div className="">
             <TextField
               select
               name="marque"
@@ -119,7 +120,7 @@ const annonce = {
               ))}
             </TextField>
           </div>
-          <div className="ml-12 mb-3 w-full">
+          <div className="w-full">
             <TextField
               name="kilometrage"
               value={kilometrage}
@@ -129,7 +130,7 @@ const annonce = {
               variant="standard"
             />
           </div>
-          <div className="ml-12 mb-3 w-full">
+          <div className="w-full">
             <TextField
               name="energie"
               value={energie}
@@ -148,8 +149,8 @@ const annonce = {
           </div>
         </div>
 
-        <div className="w-1/2">
-          <div className="mb-3">
+        <div className="">
+          <div className="">
             <TextField
               name="price"
               value={price}
@@ -159,7 +160,7 @@ const annonce = {
               variant="standard"
             />
           </div>
-          <div className="mb-3">
+          <div className="">
             <TextField
               select
               name="wilaya"
@@ -176,7 +177,7 @@ const annonce = {
               ))}
             </TextField>
           </div>
-          <div className="mb-3">
+          <div className="">
             <TextField
               name="couleur"
               value={couleur}
@@ -186,7 +187,7 @@ const annonce = {
               variant="standard"
             />
           </div>
-          <div className="mb-3">
+          <div className="">
             <TextField
               name="category"
               value={category}

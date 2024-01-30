@@ -21,15 +21,15 @@ const SearchBar = () => {
   }, []); // Add dependencies if needed
 
   return (
-    <div className="relative mx-2">
-      <div className="flex items-center border p-1 rounded-md">
+    <div className="relative ">
+      <div className="flex items-center rounded-md">
         <input
           type="text"
           onChange={(e) => {
             setSearch(e.target.value);
           }}
           placeholder="search here"
-          className={`outline-none w-full border-2 p-1 border-black bg-gray-200`}
+          className={`outline-none w-full border-2 p-1 border-black bg-gray-100 `}
           onFocus={() => setIsSearchActive(true)}
           onBlur={() => setIsSearchActive(false)}
         />

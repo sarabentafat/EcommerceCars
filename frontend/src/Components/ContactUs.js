@@ -1,7 +1,6 @@
 import React from "react";
 import { HiPhone, HiMail, HiLocationMarker } from "react-icons/hi";
 import { FaFacebookSquare, FaInstagram, FaLinkedin } from "react-icons/fa";
-import NavB from "./NavB";
 
 export const ContactUs = () => {
   return (

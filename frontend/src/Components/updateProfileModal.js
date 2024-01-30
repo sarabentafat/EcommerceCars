@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { updateProfile } from "../redux/apiCalls/profileApiCall";
-
+import { IoClose } from "react-icons/io5";
 const UpdateProfileModal = ({ setUpdatProfile, profile }) => {
   const dispatch = useDispatch();
   const [username, setUsername] = useState(profile.username);
@@ -32,7 +32,7 @@ const UpdateProfileModal = ({ setUpdatProfile, profile }) => {
             }}
             className="cursor-pointer text-gray-500 hover:text-gray-700"
           >
-            close
+            <IoClose size={30} />
           </abbr>
         </div>
         <h1 className="text-2xl font-semibold mb-4">Update Profile</h1>

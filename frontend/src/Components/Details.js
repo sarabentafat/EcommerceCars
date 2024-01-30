@@ -124,7 +124,7 @@ function Details() {
         )}
 
         {/*second one*/}
-        <div className="flex flex-col md:w-1/2 ">
+        <div className="md:flex">
           {user?._id === annonce?.user?._id && (
             <>
               <MdDelete
@@ -153,6 +153,9 @@ function Details() {
           {/*text*/}
 
           <div className="ml-10 sm:mt-8 ss2">
+            <div>
+              <img src={annonce?.image.url} href="img" />
+            </div>
             <h1 className="text-3xl text-opacity-100">{annonce?.title}</h1>
             <div className=" p-0 mt-10 md:mr-52 sm:mr-52 ">
               <p className="text-xl text-black text-opacity-60">
@@ -161,7 +164,7 @@ function Details() {
             </div>
           </div>
           {/*inputs*/}
-          <div className="flex md:m-10 sm:m-10 ss3">
+          <div className="">
             <div>
               <p className="border-b-2 border-solid border-black pb-5 mb-6">
                 Modéle:{" "}
@@ -188,13 +191,13 @@ function Details() {
                 <span className="text-gray-600 ml-2">{annonce?.couleur}</span>
               </p>
             </div>
-          </div>
-          <div className="flex  mt-12 mb-10">
-            <p className="md:ml-10 sm:ml-10 ss6 md:w-1/3 sm:w-1/3 ss4">
-              Le Prix généré :{" "}
-              <span className="text-[#BA790B]"> {annonce?.price}</span>
-            </p>
-            {/* we gotta add a comment section here */}
+            <div className="flex  mt-12 mb-10">
+              <p className="md:ml-10 sm:ml-10 ss6 md:w-1/3 sm:w-1/3 ss4">
+                Le Prix généré :{" "}
+                <span className="text-[#BA790B]"> {annonce?.price}</span>
+              </p>
+              {/* we gotta add a comment section here */}
+            </div>
           </div>
         </div>
       </div>
